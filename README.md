@@ -4,8 +4,6 @@ This will help to flash ESP32 (S3, C3, Dev Module, etc) by creating new environn
 
 Thanks a lot to @patience4711 for his/her work!
 
----
-
 
 # ESP32 read APS inverters
 This project is derived from the project [ESP-ECU](https://github.com/patience4711/read-APSystems-YC600-QS1-DS3). The reason to try this on a more powerfull platform is that the ESP8266 was running on the top of its capabilities,
@@ -14,15 +12,15 @@ The ESP32 has another big advantage over the ESP8266, the presence of a second u
 
 See it in action on [YouTube](https://youtu.be/WKFVQ6d8KhQ)
 
-## status ##
+## Status
 The system has been tested in practice with a YC600, QS1 and DS3 inverters and it works fine. 
 
-## purpose ##
+## Purpose
 The system is intended for reading APS Systems inverters. The program can pair and poll YC600 QS1 and DS3 inverters, up to 9 pieces. The read values are displayed on a web page and sent via mosquitto in a Json format.
 
 Please see the <a href='https://github.com/patience4711/ESP32-read-APS-inverters/wiki'>WIKI</a> for information on building it, the working, etc. 
 
-## downloads
+## Downloads
 May 27 2024: There is a new version [ESP32-ECU_v0_9](https://github.com/patience4711/ESP32-read-APS-inverters/blob/main/ESP32-ECU_v0-9.bin) Please see changelog.
 
 <br><br>
@@ -31,7 +29,7 @@ The frontpage:<br>
 <br><br>The details page:<br>
 ![details](https://user-images.githubusercontent.com/12282915/229239148-fc0c345e-5291-49b7-a36c-70f452333a61.jpg)
 
-## features
+## Features
 - Simply to connect to your wifi
 - Easy add, delete and pair inverters
 - automatic polling or on demand via mqtt or http
@@ -43,55 +41,85 @@ The frontpage:<br>
 - A lot of system info on the webpage
 - Easy firmware update "Over The Air"
 
-## the hardware
+## Hardware
 It is nothing more than an esp32 device and a prepared cc2530, cc2531 zigbee module. And a powersupply.
-The zigbeemodule should be flashed with a firmware that is developped by kadsol : [CC25xx_firmware](https://github.com/Koenkk/zigbee2mqtt/files/10193677/discord-09-12-2022.zip). The firmware is also available [here](https://github.com/patience4711/read-APSystems-YC600-QS1-DS3/blob/main/cc25xx_firmware.zip). Much more info as to the development of this software can be found here https://github.com/Koenkk/zigbee2mqtt/issues/4221.
+
+The zigbeemodule should be flashed with a firmware that is developped by kadsol : [CC25xx_firmware](https://github.com/Koenkk/zigbee2mqtt/files/10193677/discord-09-12-2022.zip). 
+
+The firmware is also available [here](https://github.com/patience4711/read-APSystems-YC600-QS1-DS3/blob/main/cc25xx_firmware.zip). 
+
+Much more info as to the development of this software can be found here https://github.com/Koenkk/zigbee2mqtt/issues/4221.
 
 For info on how to build and use it, please see the [wiki](https://github.com/patience4711/ESP32-read-APS-inverters/wiki)
 
-## how does it work
-APS works with their own zigbee implementation. The ESP-ECU sends zigbee commands (wireless) to the inverters and analyzes the answers, extracting the values. 
+## How does it work
+APS works with their own zigbee implementation. 
+
+The ESP-ECU sends zigbee commands (wireless) to the inverters and analyzes the answers, extracting the values. 
+
 The ESP communicates with the zigbee module through the alternative serial port (wired).
+
 The ESP-ECU starts a coordinator (an entity that can start a zigbee network). The coordinator binds the inverters and sends the poll requests to them.
-The interesting values are send via mqtt and displayed on the main page. The ecu sends a message that there is new data and the webpage reacts by requesting
-the new data.
+
+The interesting values are send via mqtt and displayed on the main page. The ecu sends a message that there is new data and the webpage reacts by requesting the new data.
+
+
 <br><br> example of a sensor in Domoticz:<br>
 ![graph2](https://user-images.githubusercontent.com/12282915/139062602-71e92216-9703-4fc4-acc6-fabf544c4ffd.jpg)
 
-## changelog ##
-version ESP32-ECU_V0_9:
+## Changelog ##
+
+This was compiled with board version
+* latest mods tosend locally declared for info- and detailspages
+*  edit readZigbee
+*  made processIncomingByte redundant
+*  moved crc and slen to sendZigbee
+*  added a debugmessage to sendzigbee when (diag)
+*  removed the line 336 memset crashed the zigbee
+*  testing sending via sendZB 
+*  changed the notation of the invID, saved as was extracted so inverting not needed anymore
+*  experimenting with extractValue() )AAA-DECODE
+*  used arduinojson to make the jsons
+*  made all inverterdata float()
+*  introduced events. // when do we need to refresh
+*  when new data (after a poll, sleep/wakeup midnight)
+*  compressed webpages and scripts combined them to one file
+*  changed the order of handles in the server, the most popular first
+
+
+**version ESP32-ECU_V0_9:**
 * fixed a bug in the html of the inverterspage
 * introduced an improved debugging method
 
-version ESP32-ECU_V0_8:
+**version ESP32-ECU_V0_8:**
 * fixed a bug related to the working of the button
   
-version ESP32-ECU_V0_7:
+**version ESP32-ECU_V0_7:**
 * more efficient communication browser/server (events driven)
 * minimized all webpages and javascripts
 * improved menu and browsing on the ecu website
   
-version ESP32-ECU_V0_5:
+**version ESP32-ECU_V0_5:**
 * more efficient use of the memory
 * Use of arduinoJson
   
-version ESP32-ECU_V0_4:
+**version ESP32-ECU_V0_4:**
 * Banned all string operations in main processes
 * Some webpages improved.
 
-version ESP32-ECU_V0_3b:
+**version ESP32-ECU_V0_3b:**
 * some security updates (maintenance from outside the own network)
 * fine-tuned the pairing process
 * redesigned the important processes to gain more free heap.
 * some cosmetics and small bugs
 
-version ESP32-ECU_V0_1d:
+**version ESP32-ECU_V0_1d:**
 * replaced elegantOta with my own implentation
 * fixed a bug in the pairing proces
 * solved system crashed due to string operations
 * fixed a bug in the pairing proces
 
-version ESP32-ECU_V0_1a:
+**version ESP32-ECU_V0_1a:**
 Relative to the esp8266:
 * new frontpage with buttons to inverter details 
 * removed the websocket console to relieve the webserver
