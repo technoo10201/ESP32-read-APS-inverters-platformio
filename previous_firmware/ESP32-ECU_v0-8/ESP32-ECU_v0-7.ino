@@ -35,7 +35,7 @@
 #include <Update.h>
 #include <Hash.h>
 
-#define VERSION  "ESP32-ECU_v0_8"
+#define VERSION  "ESP32-ECU_v0_7"
 
 #include <TimeLib.h>
 #include <time.h>
@@ -561,12 +561,6 @@ const char* password = "dummy";
      write_eeprom();
      ESP.restart();
   }
-// interrrupt button test
-if (actionFlag == 15) {
-  actionFlag = 0;
-  buttonPressed();
-}
-    
     if (actionFlag == 60) {
       actionFlag = 0; //reset the actionflag
       pairOnActionflag();
