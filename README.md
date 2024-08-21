@@ -1,3 +1,12 @@
+# Work in Progress
+I'm working on this project from @patience4711/ESP32-read-APS-inverters to integrate platformio.
+This will help to flash ESP32 (S3, C3, Dev Module, etc) by creating new environnements in platformio.ini.
+
+Thanks a lot to @patience4711 for his/her work!
+
+---
+
+
 # ESP32 read APS inverters
 This project is derived from the project [ESP-ECU](https://github.com/patience4711/read-APSystems-YC600-QS1-DS3). The reason to try this on a more powerfull platform is that the ESP8266 was running on the top of its capabilities,
 especially when more than 5 inverters were connected. Comparison in free heap between esp and esp32 show that this is more than 7x higher for the esp32.<br>
