@@ -43,8 +43,8 @@
 //////////////////////////////////////////
 // Project Libs
 //////////////////////////////////////////
-#include <debug.h>
-#include <globals.h>
+#include <DEBUG.h>
+#include <GLOBALS.h>
 
 
 //#include "AAA_CONFIG_INVERTERS.H"

@@ -2,8 +2,8 @@
 #include <ESPAsyncWebServer.h>
 
 // find out if the request comes from inside the network
-bool checkRemote(String url) {
-//check if the first 9 characters of the router 192.168.0
+bool checkRemote(String url){
+    //check if the first 9 characters of the router 192.168.0
     if(securityLevel == 0){
         return false; // never remote
     }
@@ -12,10 +12,12 @@ bool checkRemote(String url) {
 }
 
 // we come here when an unknown request is done
-void handleNotFound(AsyncWebServerRequest *request) {
+void handleNotFound(AsyncWebServerRequest *request){
   
     bool intern = false;
-    if(!checkRemote( request->client()->remoteIP().toString()) ) intern = true;
+    if(!checkRemote( request->client()->remoteIP().toString())){
+        intern = true;
+    }
 
     // **************************************************************************
     //             R E S T R I C T E D   A R E A
@@ -25,10 +27,10 @@ void handleNotFound(AsyncWebServerRequest *request) {
         String serverUrl = request->url().c_str();
         Serial.println("serverUrl = " + serverUrl);             
 
-        //  if ( serverUrl.indexOf("/CONSOLE")>-1 ) {
+        //  if ( serverUrl.indexOf("/CONSOLE")>-1 ){
         //    request->send_P(200, "text/html", CONSOLE_HTML);
         //  }
-        //  if ( serverUrl.indexOf("/MENU")>-1 ) {
+        //  if ( serverUrl.indexOf("/MENU")>-1 ){
         //  Serial.println("requestUrl = " + request->url() ); // can we use this
         //  loginBoth(request, "admin");
         //  toSend = FPSTR(HTML_HEAD);
@@ -37,13 +39,13 @@ void handleNotFound(AsyncWebServerRequest *request) {
         //  }
 
         // POLL=; 
-        if ( serverUrl.indexOf("POLL=") > -1) {
+        if (serverUrl.indexOf("POLL=") > -1){
             if(Polling){
                 request->send ( 200, "text/plain", "polling is automatic, skipping" ); //zend bevestiging
                 return; 
             }
 
-            if( diagNose != 0 ){
+            if(diagNose != 0){
                 consoleOut(F("handleNotFound found POLL="));
             }
 
@@ -54,7 +56,7 @@ void handleNotFound(AsyncWebServerRequest *request) {
             //DebugPrintln("inv= " + String(inv));
             String teZenden = "polling inverternr " + String(inv);
 
-            if(inv > inverterCount-1 || zigbeeUp != 1) {
+            if(inv > inverterCount-1 || zigbeeUp != 1){
                 String teZenden="ERROR " + serverUrl + " zigbee down or inverter not exists !";
                 request->send ( 200, "text/plain", teZenden ); 
                 return;

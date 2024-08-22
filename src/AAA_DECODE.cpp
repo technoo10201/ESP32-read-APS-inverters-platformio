@@ -23,13 +23,15 @@ int decodePollAnswer(int which)
     //retrieve the poll answer
     strcpy(messageToDecode, readZB(s_d));
 
-    if (readCounter == 0) {
+    if (readCounter == 0){
         if( diagNose != 0 ) consoleOut(F("no answer on poll request"));  
 
         return 50; //no answer
       }
 
-    if( diagNose != 0 ) consoleOut("decodePollAnswer inverter " + String(which) );
+    if( diagNose != 0 ){
+      consoleOut("decodePollAnswer inverter " + String(which) );
+    }
  
     char *tail;
     int fault=0;
@@ -54,7 +56,7 @@ int decodePollAnswer(int which)
       if( diagNose != 0 ) consoleOut("no  AF_INCOMING_MSG");
       fault=13;
     }
-    if(fault > 9 ) {
+    if(fault > 9 ){
        memset(&messageToDecode, 0, sizeof(messageToDecode)); //zero out 
        delayMicroseconds(250); 
       return fault;
@@ -74,39 +76,42 @@ int decodePollAnswer(int which)
 
     //sigQ = roundoff( (float) (extractValue(14, 2, 1, 0, tail) * 100 / 254 ), 1);
     dtostrf((float)(extractValue(14, 2, 1, 0, tail) * 100 / 255 ), 0, 1, Inv_Data[which].sigQ);
-    if( diagNose != 0 ) consoleOut( "extracted sigQ = " + String(Inv_Data[which].sigQ) );
+    if( diagNose != 0 ){
+      consoleOut( "extracted sigQ = " + String(Inv_Data[which].sigQ) );
+    }
     //    dtostrf((float)(extractValue(68, 4, 1, 0, s_d) / 3.8 ), 0, 1, Inv_Data[which].acv);
     //    DebugPrintln( "extracted ACV = " + String(Inv_Data[which].acv) );
-// a YC600 message
-// tail 06 01 3A 10 14 14 00 71 00 B5 7C FA 00 00 5E | 40 80 00 15 82 15 | FB FB 51 | B1 03 D4 0F 41 17 00 00 74 CF 00 | 00 00 76 70 | 6A 73 D0 6B 04 96 |
-//      0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 | 15 16 17 18 19 20 | 21 22 23 | 24 25 26 27 28 29 30 31 32 33 34 | 35 36 37 38 | 39 40 41 42 43 44 |
-// np                                                   0  1  2  3  4  5 | 6  7  8  | 9  10 11 12 13 14 15 16 17 18 19 | 20 21 22 23 | 24 25 26 27 28 29 |
-//                                                          serial                                                      heath           frequency
 
-// 00 00 | 00 | 00 00 | 00 00 01 | 72 | 07 2D | 88 01 78 62 | E8 20 1F 00 03 05 55 07 3F 03 03 03 01 00 | 00 01 00 
-// 45 46 | 47 | 48 49 | 50 51 52 | 53 | 54 55 | 56 57 58 59 | 60 61 62 63 64 65 66 67 68 69 70 71 72 73 | 74 75 76 77 78 79 |
-// 30 31 | 32 | 33 34 | 35 36 37 | 38 | 39 40 | 41 42 43 44 | 45 46 47 48 49 50 51 52 53 54 55 56 57 58 | 59
-//         C0 |  DC1  |          | C1 |  DC2  |     ACV                                                 | EN0
+    // a YC600 message
+    // tail 06 01 3A 10 14 14 00 71 00 B5 7C FA 00 00 5E | 40 80 00 15 82 15 | FB FB 51 | B1 03 D4 0F 41 17 00 00 74 CF 00 | 00 00 76 70 | 6A 73 D0 6B 04 96 |
+    //      0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 | 15 16 17 18 19 20 | 21 22 23 | 24 25 26 27 28 29 30 31 32 33 34 | 35 36 37 38 | 39 40 41 42 43 44 |
+    // np                                                   0  1  2  3  4  5 | 6  7  8  | 9  10 11 12 13 14 15 16 17 18 19 | 20 21 22 23 | 24 25 26 27 28 29 |
+    //                                                          serial                                                      heath           frequency
 
-//000000000000000000000000000000000000000000000000000000000000FEFE3A100E76",300);
-//   break;
+    // 00 00 | 00 | 00 00 | 00 00 01 | 72 | 07 2D | 88 01 78 62 | E8 20 1F 00 03 05 55 07 3F 03 03 03 01 00 | 00 01 00 
+    // 45 46 | 47 | 48 49 | 50 51 52 | 53 | 54 55 | 56 57 58 59 | 60 61 62 63 64 65 66 67 68 69 70 71 72 73 | 74 75 76 77 78 79 |
+    // 30 31 | 32 | 33 34 | 35 36 37 | 38 | 39 40 | 41 42 43 44 | 45 46 47 48 49 50 51 52 53 54 55 56 57 58 | 59
+    //         C0 |  DC1  |          | C1 |  DC2  |     ACV                                                 | EN0
+
+    //000000000000000000000000000000000000000000000000000000000000FEFE3A100E76",300);
+    //   break;
 
 
-// a DS3 message
-//FE0164010064FE034480001401D2FE0345C43A1000A8FE724481000006013A101414007100B57CFA00005E703000021300fbfb5cbbbb20000200e6ffff000000000000000006f506f9002e00340360138a17a70024001fffff054206900016f62b0018e451ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3969fefe",300);
-// tail starts with serial
-// tail  70 30 00 02 13 00 | fb fb 5c bb bb 20 00 02 00   e6 ff ff 00 00   00 00 00 00 00 00 | 06 f5 | 06 f9 | 00 2e | 00 34 | 03 60 | 13 8a | 17 a7 00 24
-//       0  1  2  3  4  5  | 6  7  8  9  10 11 12 13 14 | 15 16 17 18 19 | 20 21 22 23 24 25 | 26 27 | 28 29 | 30 31 | 32 33 | 34 35 | 36 37 | 38 39 40
-//             serial                                                                          dcv2  |  dcv1 |  dcv3 |       |  ACV  | freq  | time
+    // a DS3 message
+    //FE0164010064FE034480001401D2FE0345C43A1000A8FE724481000006013A101414007100B57CFA00005E703000021300fbfb5cbbbb20000200e6ffff000000000000000006f506f9002e00340360138a17a70024001fffff054206900016f62b0018e451ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3969fefe",300);
+    // tail starts with serial
+    // tail  70 30 00 02 13 00 | fb fb 5c bb bb 20 00 02 00   e6 ff ff 00 00   00 00 00 00 00 00 | 06 f5 | 06 f9 | 00 2e | 00 34 | 03 60 | 13 8a | 17 a7 00 24
+    //       0  1  2  3  4  5  | 6  7  8  9  10 11 12 13 14 | 15 16 17 18 19 | 20 21 22 23 24 25 | 26 27 | 28 29 | 30 31 | 32 33 | 34 35 | 36 37 | 38 39 40
+    //             serial                                                                          dcv2  |  dcv1 |  dcv3 |       |  ACV  | freq  | time
 
-// | 00 1f ff ff 05 42 | 06  90 | 00 16 f6 2b | 00 18 e4 51 | ff ff ff
-// | 42 43 44 45 46 47 | 48  49 | 50 51 52 53 | 54 55 56 57 | 50 59 60 61 62 | 63 64 | 65 66 67 68 | 69 70 71 72 | 73 74 75 
-// |                   |  temp  |      en2    |       en1
+    // | 00 1f ff ff 05 42 | 06  90 | 00 16 f6 2b | 00 18 e4 51 | ff ff ff
+    // | 42 43 44 45 46 47 | 48  49 | 50 51 52 53 | 54 55 56 57 | 50 59 60 61 62 | 63 64 | 65 66 67 68 | 69 70 71 72 | 73 74 75 
+    // |                   |  temp  |      en2    |       en1
 
-// ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3969fefe",300);
+    // ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3969fefe",300);
 
-// new string
-// 703000021300fbfb5cbbbb2000fc0001ffff000000000000000006e506ee015901da036e13882bbb01480026 ff ff 05 25 | 08 43 | 00 3a 40 b2 | 00 35 38 52 | 00 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3896fefe
+    // new string
+    // 703000021300fbfb5cbbbb2000fc0001ffff000000000000000006e506ee015901da036e13882bbb01480026 ff ff 05 25 | 08 43 | 00 3a 40 b2 | 00 35 38 52 | 00 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3896fefe
         // attention s_d starts with the serial at offset 30 !!                             44            48temp  50   EN2       54     EN1
 
         memset(&s_d[0], 0, sizeof(s_d)); //zero out 
@@ -130,19 +135,19 @@ int decodePollAnswer(int which)
         if( diagNose != 0 ) consoleOut( "extracted HEATH = " + String(Inv_Data[which].heath) );
         
         // ******************  dc voltage   *****************************************
-         // voltage ch1 offset 28
-         dtostrf( extractValue( 52, 4, 1, 0, s_d ) * (float)1 / (float)48, 0, 1, Inv_Data[which].dcv[0]);
-         // voltage ch2 offset 26
-         dtostrf( extractValue( 56, 4, 1, 0, s_d ) * (float)1 / (float)48, 0, 1, Inv_Data[which].dcv[1]);
-         // ******************  current   *****************************************
-         // current ch1 offset 30
-         dtostrf( extractValue(60, 4, 1, 0, s_d ) * 0.0125, 0, 1, Inv_Data[which].dcc[0]);
-         // current ch1 offset 34
-         dtostrf( extractValue(64, 4, 1, 0, s_d ) * 0.0125, 0, 1, Inv_Data[which].dcc[1]);
+        // voltage ch1 offset 28
+        dtostrf( extractValue( 52, 4, 1, 0, s_d ) * (float)1 / (float)48, 0, 1, Inv_Data[which].dcv[0]);
+        // voltage ch2 offset 26
+        dtostrf( extractValue( 56, 4, 1, 0, s_d ) * (float)1 / (float)48, 0, 1, Inv_Data[which].dcv[1]);
+        // ******************  current   *****************************************
+        // current ch1 offset 30
+        dtostrf( extractValue(60, 4, 1, 0, s_d ) * 0.0125, 0, 1, Inv_Data[which].dcc[0]);
+        // current ch1 offset 34
+        dtostrf( extractValue(64, 4, 1, 0, s_d ) * 0.0125, 0, 1, Inv_Data[which].dcc[1]);
       
       } else {
 
-         if(Inv_Prop[which].invType == 0) {
+         if(Inv_Prop[which].invType == 0){
          if( diagNose != 0 ) consoleOut( "decoding a YC600 inverter"); 
          } else { 
           if( diagNose != 0 ) consoleOut( "decoding a QS1 inverter");
@@ -214,7 +219,7 @@ We keep stacking the increases so we have also en_inc_total
     // 1st the time period 
     // at the start of this we have a value of the t_new[which] of the former poll
     // if this is 0 there was no former poll 
-    switch (Inv_Prop[which].invType) {    
+    switch (Inv_Prop[which].invType){    
       case 0: // yc600
          t_extr = extractValue(34, 4, 1, 0, s_d); // dataframe timestamp
          break;
@@ -230,7 +235,7 @@ We keep stacking the increases so we have also en_inc_total
 
     //if the inverter had a reset, time new would be smaller than time old
     //t_saved is globally defined so we remember the last. With the new we can calculate the timeperiod
-    if (t_extr < t_saved[which] || t_saved[which] == 0) { // there has been a reset 
+    if (t_extr < t_saved[which] || t_saved[which] == 0){ // there has been a reset 
     ts = t_extr;
     resetFlag = true;
     } else {
@@ -245,7 +250,7 @@ We keep stacking the increases so we have also en_inc_total
     int increment = 10; // offset to the next energy value
     int btc = 6; // amount of bytes
     int offst = 74; // this is incremented with 10
-    if(Inv_Prop[which].invType == 2) { offst = 100; increment = 8; btc = 8; } // for the DS3 we have different offset/increment
+    if(Inv_Prop[which].invType == 2){ offst = 100; increment = 8; btc = 8; } // for the DS3 we have different offset/increment
     
     //float total = 0;
     float en_extr = 0;
@@ -257,7 +262,7 @@ We keep stacking the increases so we have also en_inc_total
 
     for(int x = 0; x < 4; x++ ) 
     {   
-         if(Inv_Prop[which].conPanels[x]) { // is this panel connected ? otherwise skip
+         if(Inv_Prop[which].conPanels[x]){ // is this panel connected ? otherwise skip
 
          if(diagNose != 0) consoleOut(" * * * decoding panel " + String(x) + " * * * ");           
 
@@ -271,7 +276,7 @@ We keep stacking the increases so we have also en_inc_total
             en_extr = extractValue(offst+x*increment, btc, 1, 0, s_d); // offset 74 todays module energy channel 0
 
             //we calculate a new energy value for this panel and remember it
-            if ( Inv_Prop[which].invType == 2) {
+            if ( Inv_Prop[which].invType == 2){
               en_saved[which][x] = (en_extr / (float)1000 /100) * 1.66; //[Wh]
             } else {
               en_saved[which][x] = (en_extr * 8.311F / (float)3600); //[Wh]
@@ -293,7 +298,7 @@ We keep stacking the increases so we have also en_inc_total
             //Inv_Data[which].en_total += en_incr; // stack the increase
             
             //calculate the power for this panel and remember
-            if ( Inv_Prop[which].invType == 2) {
+            if ( Inv_Prop[which].invType == 2){
               power = en_incr / ts * (float)3600; //[W]
             } else {
               power = en_incr / ts * (float)3600; //[W]
@@ -350,12 +355,12 @@ float extractValue(uint8_t startPosition, uint8_t valueLength, float valueSlope,
 // ************************************************************************************
 //                mqtt send polled data
 // ************************************************************************************
-void mqttPoll(int which) {
+void mqttPoll(int which){
 
   if(Mqtt_Format == 0) return;
   char Mqtt_send[26]={0};  
   strcpy(Mqtt_send, Mqtt_outTopic);
-  if( Mqtt_send[strlen(Mqtt_send)-1] == '/' ) {
+  if( Mqtt_send[strlen(Mqtt_send)-1] == '/' ){
     strcat(Mqtt_send, String(Inv_Prop[which].invIdx).c_str());
   }
   char pan[50]={0};
@@ -386,7 +391,7 @@ String sValue="\"svalue\":\"";
      case 3:
         snprintf(toMQTT, sizeof(toMQTT), "{\"freq\":%s,\"temp\":%s,\"acv\":%s" , Inv_Data[which].freq, Inv_Data[which].heath, Inv_Data[which].acv);
         //char pan[50]={0};
-        if( Inv_Prop[which].invType == 1 ) { // qs1
+        if( Inv_Prop[which].invType == 1 ){ // qs1
             sprintf(pan, ",\"dcv\":[%s,%s,%s,%s]", Inv_Data[which].dcv[0], Inv_Data[which].dcv[1],Inv_Data[which].dcv[2],Inv_Data[which].dcv[3]);
             strcat(toMQTT, pan);
             sprintf(pan, ",\"dcc\":[%s,%s,%s,%s]", Inv_Data[which].dcc[0], Inv_Data[which].dcc[1],Inv_Data[which].dcc[2],Inv_Data[which].dcc[3]);
@@ -416,7 +421,7 @@ String sValue="\"svalue\":\"";
         sprintf(pan, ",\"ch1\":[%s,%s,%s,%.2f]", Inv_Data[which].dcv[1], Inv_Data[which].dcc[1], Inv_Data[which].power[1], en_saved[which][1]);  
         strcat(toMQTT, pan);
 
-        if( Inv_Prop[which].invType == 1 ) { // add ch2 and ch3
+        if( Inv_Prop[which].invType == 1 ){ // add ch2 and ch3
             sprintf(pan, ",\"ch2\":[%s,%s,%s,%.2f]", Inv_Data[which].dcv[2], Inv_Data[which].dcc[2], Inv_Data[which].power[2], en_saved[which][2]);  
             strcat(toMQTT, pan);
             sprintf(pan, ",\"ch3\":[%s,%s,%s,%.2f]", Inv_Data[which].dcv[3], Inv_Data[which].dcc[3], Inv_Data[which].power[3], en_saved[which][3]);  

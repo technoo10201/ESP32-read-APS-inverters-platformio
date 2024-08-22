@@ -1,3 +1,6 @@
+#ifndef AAA_HOMEPAGE_H
+#define AAA_HOMEPAGE_H
+
 #include <Arduino.h>
 
 // HTML content for the ECU homepage stored in PROGMEM to save RAM on the ESP32
@@ -236,3 +239,5 @@ function getTimes() {
 }
 
 )=====";
+
+#endif

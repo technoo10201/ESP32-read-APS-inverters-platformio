@@ -1,56 +1,6 @@
-#include <Arduino.h>
-#include <ESPAsyncWebServer.h>
+#include <ABOUT.h>
 
-const char ABOUT[] PROGMEM = R"=====(
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="refresh" content="180">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset='utf-8'>
-  <link rel="stylesheet" type="text/css" href="/STYLESHEET_HOME">
-  <title>ESP32-ECU</title>
-  <style>
-    table, th, td {
-      border: 1px solid blue; 
-      font-size: 12px; 
-      background-color: #ffffcc;
-    }
-    th, td { 
-      padding-left: 4px; 
-      padding-right: 4px;
-    }
-    th {
-      background-color: #22ffb3;
-    }
-    body { 
-      font-size: 12px; 
-    } 
-    tr {
-      height: 26px;
-    }
-  </style>
-  <script type="text/javascript" src="SECURITY"></script>
-  <script> 
-    function cl() { 
-      window.location.href='/MENU'; 
-    }
-  </script>
-</head>
-<body>
-  <div id='msect'>
-    <ul>
-      <li id='fright'>
-        <span class='close' onclick='cl();'>&times;</span>
-      </li>
-    </ul>
-  </div>
-  <center>
-    <h2>ESP-ECU SYSTEM DATA</h2>
-  </center>
-)=====";
-
-void handleAbout(AsyncWebServerRequest *request) {
+void handleAbout(AsyncWebServerRequest *request){
     char page[1536] = {0};
     char temp[100] = {0};
     strcpy_P(page, ABOUT);
@@ -62,14 +12,14 @@ void handleAbout(AsyncWebServerRequest *request) {
     strcat(page, "<br><table><tr><TH colspan='2'> SYSTEM INFORMATION</th></tr>");
     strcat(page, "<tr><td>firmware version<td>ESP32-ECU-v0_7</tr>");
     
-    if (timeRetrieved) {
+    if (timeRetrieved){
         strcat(page, "<tr><td>time retrieved<td>yes</tr>");
     } else {
         strcat(page, "<tr><td>time retrieved<td>n</tr>");
     }
 
     sprintf(temp, "<tr><td>systemtime<td> %d:%d ", hour(), minute());
-    switch (dst) {
+    switch (dst){
         case 1: 
             strncat(temp, "summertime</td>", 19); 
             break;
@@ -94,11 +44,11 @@ void handleAbout(AsyncWebServerRequest *request) {
     sprintf(temp, "<tr><td>Free heap<td>%ld bytes</td>", esp_get_free_heap_size());
     strcat(page, temp);
 
-    if (Mqtt_Format != 0) { 
+    if (Mqtt_Format != 0){ 
         sprintf(temp, "<tr><td>mqtt clientId<td>%s</td>", getChipId(false).c_str());
         strcat(page, temp);
 
-        if (MQTT_Client.connected()) { 
+        if (MQTT_Client.connected()){ 
             sprintf(temp, "<tr><td>mqtt connected<td>%s</td>", Mqtt_Broker);
         } else {
             sprintf(temp, "<tr><td>mqtt status<td>not connected</td>");
