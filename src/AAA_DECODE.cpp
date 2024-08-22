@@ -1,5 +1,4 @@
-#include <Arduino.h>
-#include <globals.h>
+#include <AAA_DECODE.h>
 
 // ******************************************************************
 //                    decode polling answer

@@ -1,6 +1,4 @@
-#include <Arduino.h>
-#include <SPIFFS.h>
-#include <ArduinoJson.h>
+#include <SPIFFS_RW.h>
 
 // ******************   spiffs lezen  *************************
 

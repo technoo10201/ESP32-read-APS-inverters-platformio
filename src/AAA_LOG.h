@@ -77,5 +77,11 @@ tr {height:20px;}
 )=====";
 //</tr><tr><td>date </td><td>system</td><td>192.168.0.aaa.sss.ddd </td></tr>
 
+
+void handleLogPage( AsyncWebServerRequest *request);
+void Update_Log(char what[], char message[]);
+void Clear_Log(AsyncWebServerRequest *request);
+
+
 #endif
 

@@ -1,5 +1,4 @@
-#include <Arduino.h>
-#include <globals.h>
+#include <ISR.h>
 
 // *******************************************************************************************
 //                  interrupt service routine

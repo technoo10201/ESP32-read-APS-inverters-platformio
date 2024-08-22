@@ -1,5 +1,4 @@
-#include <Arduino.h>
-#include <ESPAsyncWebServer.h>
+#include <EXTERNAL.h>
 
 // find out if the request comes from inside the network
 bool checkRemote(String url){

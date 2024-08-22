@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <AsyncWebSocket.h>
+#include <utils.h>
+#include <ASYSERVER.h>
 
 void start_wifi();
 void checkFixed();

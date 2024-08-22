@@ -1,5 +1,4 @@
-#include <Arduino.h>
-#include <WiFiUdp.h>
+#include <TIJD_GET.h>
 
 void getTijd(){
 

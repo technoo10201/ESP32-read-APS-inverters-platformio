@@ -1,5 +1,5 @@
-#include <Arduino.h>
-#include <AsyncWebSocket.h>
+#include <ZIGBEE_PAIR.h>
+
 
 void pairOnActionflag(){
     // Start with setup the coordinator
@@ -76,27 +76,19 @@ bool pairing(int which){
     switch (y){
       case 0:
           // Build command 0 this is "24020FFFFFFFFFFFFFFFFF14FFFF14" + "0D0200000F1100" + String(invSerial) + "FFFF10FFFF" + ecu_id_reverse
-          snprintf(pairCmd, sizeof(pairCmd),
-                    "24020FFFFFFFFFFFFFFFFF14FFFF140D0200000F1100%sFFFF10FFFF%s",
-                    Inv_Prop[which].invSerial, ecu_id_reverse);
+          snprintf(pairCmd, sizeof(pairCmd), "24020FFFFFFFFFFFFFFFFF14FFFF140D0200000F1100%sFFFF10FFFF%s", Inv_Prop[which].invSerial, ecu_id_reverse);
           break;
       case 1:
           // Build command 1 this is "24020FFFFFFFFFFFFFFFFF14FFFF14" + "0C0201000F0600"  + inv serial,
-          snprintf(pairCmd, sizeof(pairCmd),
-                    "24020FFFFFFFFFFFFFFFFF14FFFF140C0201000F0600%s",
-                    Inv_Prop[which].invSerial);
+          snprintf(pairCmd, sizeof(pairCmd), "24020FFFFFFFFFFFFFFFFF14FFFF140C0201000F0600%s", Inv_Prop[which].invSerial);
           break;
       case 2:
           // Build command 2 this is "24020FFFFFFFFFFFFFFFFF14FFFF14" + "0F0102000F1100"  + invSerial + short ecu_id_reverse, + 10FFF + ecu_id_reverse
-          snprintf(pairCmd, sizeof(pairCmd),
-                    "24020FFFFFFFFFFFFFFFFF14FFFF140F0102000F1100%s%s10FFFF%s",
-                    Inv_Prop[which].invSerial, ecu_short, ecu_id_reverse);
+          snprintf(pairCmd, sizeof(pairCmd), "24020FFFFFFFFFFFFFFFFF14FFFF140F0102000F1100%s%s10FFFF%s", Inv_Prop[which].invSerial, ecu_short, ecu_id_reverse);
           break;
       case 3:
           // Now build command 3 this is "24020FFFFFFFFFFFFFFFFF14FFFF14"  + "010103000F0600" + ecu_id_reverse,
-          snprintf(pairCmd, sizeof(pairCmd),
-                    "24020FFFFFFFFFFFFFFFFF14FFFF14010103000F0600%s",
-                    ecu_id_reverse);
+          snprintf(pairCmd, sizeof(pairCmd), "24020FFFFFFFFFFFFFFFFF14FFFF14010103000F0600%s", ecu_id_reverse);
           break;
     }
 

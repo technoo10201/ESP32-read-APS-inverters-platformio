@@ -56,7 +56,7 @@ void handleLogPage( AsyncWebServerRequest *request ){
   request->send(200, "text/html", page); 
 }
 
- void Update_Log(char what[], char message[]){
+void Update_Log(char what[], char message[]){
   char nu[14];
         //DebugPrintln("updating the log");
         Serial.println("what = " + String(what));

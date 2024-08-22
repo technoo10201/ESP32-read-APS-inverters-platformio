@@ -1,5 +1,4 @@
-#include <Arduino.h>
-#include <mqtt_client.h>
+#include <MQTT.H>
 
 // Fonction pour établir une connexion MQTT
 bool mqttConnect(){   

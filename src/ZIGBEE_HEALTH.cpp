@@ -1,6 +1,4 @@
-#include <Arduino.h>
-#include <mqtt_client.h>
-#include <mqtt_supported_features.h>
+#include <ZIGBEE_HEALTH.h>
 
 // *************************************************************************
 //                   system healtcheck 

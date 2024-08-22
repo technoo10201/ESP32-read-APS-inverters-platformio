@@ -1,3 +1,5 @@
+#include <ZIGBEE_POLLING.h>
+
 void polling(int which){
   polled[which] = false; //nothing is displayed on webpage
 

@@ -21,4 +21,8 @@
 #define ZB_RESET   5     // GPIO_NUM_5
 //#define ZB_TX    17    // GPIO_NUM_17
 
+
+// Langages
+// #define DUTCH
+
 #endif

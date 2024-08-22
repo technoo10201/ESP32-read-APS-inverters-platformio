@@ -1,4 +1,4 @@
-#include <sunMoon.h>
+#include <TIJD_CALC.h>
 
 // deze functie berekent de zonsopkomst en zonsondergangstijden
 void sun_setrise(){

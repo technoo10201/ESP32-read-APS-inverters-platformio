@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include <test.h>
 
 // we can send a zigbee message via serial console
 void testMessage(bool console){
