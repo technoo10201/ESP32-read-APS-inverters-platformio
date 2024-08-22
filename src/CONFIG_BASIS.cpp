@@ -1,5 +1,7 @@
 //<td>DS3 conversion<td><input class='inp2' type='number' id='cali' name='cali' min='0.2' max='2' value='{ca}'</input></td><tr>
 
+#include <Arduino.h>
+
 const char BASISCONFIG[] PROGMEM = R"=====(
 <body>
   <div id=''>

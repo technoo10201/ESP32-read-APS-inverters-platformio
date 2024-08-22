@@ -1,3 +1,6 @@
+#ifndef OTA_H
+#define OTA_H
+
 const char otaIndex[] PROGMEM = R"=====(
 <!DOCTYPE html><html><head><meta charset='utf-8'>
 <link rel="stylesheet" type="text/css" href="/STYLESHEET">
@@ -186,3 +189,5 @@ if the upload was successful the reboot button will appear.<br><br><br>
 ////  server.handleClient();
 ////  delay(1);
 ////}
+
+#endif

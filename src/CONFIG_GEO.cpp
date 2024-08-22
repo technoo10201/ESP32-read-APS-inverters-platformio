@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#include <ESPAsyncWebServer.h>
+
 const char GEOCONFIG[] PROGMEM = R"=====(
 <body>
   <div id='msect'>

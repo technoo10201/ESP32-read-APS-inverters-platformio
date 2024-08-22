@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#include <globals.h>
+
 // *****************************************************************************
 //                            read zigbee
 // *****************************************************************************
@@ -10,7 +13,9 @@ char * readZB( char inMess[] ) {
     if( !waitSerial2Available() ) {
         inMess[0]='\0';
         term = " readZB nothing to read";
-        if(diagNose != 0) consoleOut(F(" readZB nothing to read"));
+        if(diagNose != 0){
+            consoleOut(F(" readZB nothing to read"));
+        }
         return inMess;
     }
     
@@ -44,7 +49,9 @@ char * readZB( char inMess[] ) {
            strcpy(inMess, &inMess[2]);
         }   
 
-        if(diagNose != 0) consoleOut("readZB " + String(inMess) + "  rc=" + String(readCounter) + "\n");  
+        if(diagNose != 0){
+            consoleOut("readZB " + String(inMess) + "  rc=" + String(readCounter) + "\n");  
+        }
         
            //if(diagNose == 1) Serial.println(term); else if(diagNose == 2) ws.textAll(term);
         //}
@@ -57,7 +64,7 @@ char * readZB( char inMess[] ) {
 // *****************************************************************************
 void sendZB( char printString[] )
 {
-    char bufferSend[254]={0};
+    char bufferSend[254] = {0};
     char byteSend[3]; // never more than 2 bytes 
     sprintf(bufferSend, "%02X", (strlen(printString) / 2 - 2)); //now contains a hex representation of the length 
     //first add length and the checksum
@@ -84,7 +91,9 @@ void sendZB( char printString[] )
             
     }
     
-    if (diagNose != 0) consoleOut("  sendZB FE" + String(bufferSend));
+    if (diagNose != 0){
+        consoleOut("  sendZB FE" + String(bufferSend));
+    }
      
     //else if (diagNose == 2) ws.textAll("sendZB FE" + String(bufferSend));
 }
@@ -94,8 +103,8 @@ void sendZB( char printString[] )
 // *****************************************************************************
 String checkSumString(char Command[])
 {
-char bufferCRC[254] = {0};
-char bufferCRC_2[254] = {0};
+    char bufferCRC[254] = {0};
+    char bufferCRC_2[254] = {0};
 
     strncpy(bufferCRC, Command, 2); //as starting point perhaps called "seed" use the first two chars from "Command"
     delayMicroseconds(250);         //give memset a little bit of time to empty all the buffers
@@ -138,9 +147,7 @@ String ECU_REVERSE() {
    return reverse;
 }
 
-// ******************************************************************************
-//                   reboot an inverter
-// *******************************************************************************
+
 // ******************************************************************************
 //                   reboot an inverter
 // *******************************************************************************

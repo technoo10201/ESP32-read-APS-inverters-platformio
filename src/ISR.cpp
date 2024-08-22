@@ -1,10 +1,5 @@
-// *******************************************************************************************
-//                  interrupt service routine
-// *******************************************************************************************
-// this routine is called when the button is pressed
-// the first part is a debouncer and takes care for the case of grid failure
-// when the program would think that a button has been pressed.
-// next we check if the button was short or long pressed.
+#include <Arduino.h>
+#include <globals.h>
 
 // *******************************************************************************************
 //                  interrupt service routine
@@ -14,9 +9,17 @@
 // when the program would think that a button has been pressed.
 // next we check if the button was short or long pressed.
 
- IRAM_ATTR void isr() {
- actionFlag = 15;
- }
+// *******************************************************************************************
+//                  interrupt service routine
+// *******************************************************************************************
+// this routine is called when the button is pressed
+// the first part is a debouncer and takes care for the case of grid failure
+// when the program would think that a button has been pressed.
+// next we check if the button was short or long pressed.
+
+IRAM_ATTR void isr() {
+  actionFlag = 15;
+}
 
 void buttonPressed() {
   int val = 0;

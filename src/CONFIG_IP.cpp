@@ -1,3 +1,7 @@
+#include <Arduino.h>
+#include <WiFi.h>
+#include <ESPAsyncWebServer.h>
+
 const char IPCONFIG[] PROGMEM = R"=====(
 <body onload='showTable()'>
 

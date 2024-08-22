@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 // we can send a zigbee message via serial console
 void testMessage(bool console) {
       char sendCmd[100]={0};

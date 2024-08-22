@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 const char MQTTCONFIG[] PROGMEM = R"=====(
 <body>
 <div id='msect'>

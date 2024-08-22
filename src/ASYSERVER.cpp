@@ -1,19 +1,30 @@
-void start_server() {
-if( diagNose != 0 ) consoleOut("starting server");
-//server.addHandler(&ws);
+#include <Arduino.h>
 
-server.on("/CONSOLE", HTTP_GET, [](AsyncWebServerRequest *request){
-  if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
-    request->send_P(200, "text/html", CONSOLE_HTML);
+#include <AAA_MENUPAGE.H>
+#include <DETAILSPAGE.H>
+#include <OTA.H>
+#include <ESPAsyncWebServer.h>
+#include <HTML.H>
+
+
+void start_server() {
+  if( diagNose != 0 ){
+    consoleOut("starting server");
+  }
+  //server.addHandler(&ws);
+
+  server.on("/CONSOLE", HTTP_GET, [](AsyncWebServerRequest *request){
+    if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
+      request->send_P(200, "text/html", CONSOLE_HTML);
+    });
+
+  server.on("/details", HTTP_GET, [](AsyncWebServerRequest *request) {
+  iKeuze = atoi(request->arg("inv").c_str()) ;
+  requestUrl = request->url();
+  request->send_P(200, "text/html", DETAILSPAGE);
   });
 
-server.on("/details", HTTP_GET, [](AsyncWebServerRequest *request) {
-iKeuze = atoi(request->arg("inv").c_str()) ;
-requestUrl = request->url();
-request->send_P(200, "text/html", DETAILSPAGE);
-});
-
-// Simple Firmware Update
+  // Simple Firmware Update
   server.on("/FWUPDATE", HTTP_GET, [](AsyncWebServerRequest *request){
     if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
     requestUrl = "/";
@@ -49,8 +60,10 @@ request->send_P(200, "text/html", DETAILSPAGE);
       }
     }
     } else {
-      if( diagNose != 0 ) consoleOut("filename empty, aborting");
-//     Update.hasError()=true;
+      if( diagNose != 0 ){
+        consoleOut("filename empty, aborting");
+      }
+      //  Update.hasError()=true;
     }
     if(!Update.hasError()){
       if(Update.write(data, len) != len){
@@ -66,36 +79,37 @@ request->send_P(200, "text/html", DETAILSPAGE);
       }
     }
   });
-// ***********************************************************************************
-//                                     homepage
-// ***********************************************************************************
-server.on("/SW=BACK", HTTP_GET, [](AsyncWebServerRequest *request) {
-    loginBoth(request, "both");
-    request->redirect( requestUrl );
-});
 
-server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    loginBoth(request, "both");
-    //sendHomepage();
-    //if( diagNose != 0 ) consoleOut(F("send Homepage"));
-    request->send_P(200, "text/html", ECU_HOMEPAGE);
-});
+  // ***********************************************************************************
+  //                                     homepage
+  // ***********************************************************************************
+  server.on("/SW=BACK", HTTP_GET, [](AsyncWebServerRequest *request) {
+      loginBoth(request, "both");
+      request->redirect( requestUrl );
+  });
 
-server.on("/STYLESHEET", HTTP_GET, [](AsyncWebServerRequest *request) {
-   request->send_P(200, "text/css", STYLESHEET);
-});
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+      loginBoth(request, "both");
+      //sendHomepage();
+      //if( diagNose != 0 ) consoleOut(F("send Homepage"));
+      request->send_P(200, "text/html", ECU_HOMEPAGE);
+  });
 
-server.on("/JAVASCRIPT", HTTP_GET, [](AsyncWebServerRequest *request) {
-   request->send_P(200, "text/css", JAVA_SCRIPT);
-});
-server.on("/INVSCRIPT", HTTP_GET, [](AsyncWebServerRequest *request) {
-   request->send_P(200, "text/css", INV_SCRIPT);
-});
-server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
-    //Serial.println("favicon requested");
-    AsyncWebServerResponse *response = request->beginResponse_P(200, "image/x-icon", FAVICON, FAVICON_len);
-    request->send(response);
-});
+  server.on("/STYLESHEET", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/css", STYLESHEET);
+  });
+
+  server.on("/JAVASCRIPT", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/css", JAVA_SCRIPT);
+  });
+  server.on("/INVSCRIPT", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/css", INV_SCRIPT);
+  });
+  server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
+      //Serial.println("favicon requested");
+      AsyncWebServerResponse *response = request->beginResponse_P(200, "image/x-icon", FAVICON, FAVICON_len);
+      request->send(response);
+  });
 
 server.on("/MENU", HTTP_GET, [](AsyncWebServerRequest *request) {
 //Serial.println("requestUrl = " + request->url() ); // can we use this

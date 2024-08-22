@@ -1,3 +1,7 @@
+#include <Arduino.h>
+#include <mqtt_client.h>
+#include <mqtt_supported_features.h>
+
 // *************************************************************************
 //                   system healtcheck 
 //**************************************************************************
@@ -14,11 +18,15 @@ if ( MQTT_Client.connected() ) {
         char toMQTT[50]={0};
         sprintf( toMQTT, "{\"idx\":%d,\"nvalue\":0,\"svalue\":\"%ld\"}", domIdx, esp_get_free_heap_size() );
 
-        if( diagNose != 0 ) consoleOut("Healtcheck mqtt heap, mess is : " + String(toMQTT) );
+        if( diagNose != 0 ){
+          consoleOut("Healtcheck mqtt heap, mess is : " + String(toMQTT) );
+        }
         MQTT_Client.publish ( Mqtt_send, toMQTT, false);   
   }      
  
-        if(!timeRetrieved) getTijd();
+        if(!timeRetrieved){
+          getTijd();
+        }
         
         // reset the errorcode so that polling errors remain
         if(errorCode >= 3000) errorCode -= 3000;
@@ -27,32 +35,33 @@ if ( MQTT_Client.connected() ) {
         
         ZigbeePing();
         
-        switch(checkCoordinator() ) // send the 2700 command 
-           {
-            case 0:
-                  zigbeeUp = 1; // all oke
-                  diagNose = 0; // reset diagNose as this costs cpu
-                  break;
-    
-            case 2:
-                  //zigbeeUp = 0;
-                  //String term = "zb down";
-                  //Update_log("zigbee", "zb down" );
-                  if(diagNose != 0) consoleOut("zb down");
-                  resetCounter += 1;
-                  resetValues(false, false); // reset all values, no mqtt
-                  // try to start the coordinator
-                  Serial.println("hc starting coordinator");
-                  if (coordinator(true) ) zigbeeUp = 1; else zigbeeUp = 0; 
-            }      
+        switch(checkCoordinator()){ // send the 2700 command 
+          case 0:
+                zigbeeUp = 1; // all oke
+                diagNose = 0; // reset diagNose as this costs cpu
+                break;
+
+          case 2:
+                //zigbeeUp = 0;
+                //String term = "zb down";
+                //Update_log("zigbee", "zb down" );
+                if(diagNose != 0) consoleOut("zb down");
+                resetCounter += 1;
+                resetValues(false, false); // reset all values, no mqtt
+                // try to start the coordinator
+                Serial.println("hc starting coordinator");
+                if (coordinator(true) ) zigbeeUp = 1; else zigbeeUp = 0; 
+        }      
     
 }
 
 int checkCoordinator() {
-// this is basically the 2700 command  
-// the answer can mean that the coordinator is up, not yet started or no answer
-// we evaluate that
-// first empty serial2, comming from coordinator this is necessary;
+    // this is basically the 2700 command  
+    // the answer can mean that the coordinator is up, not yet started or no answer
+    // we evaluate that
+    // first empty serial2, comming from coordinator this is necessary;
+
+
     //empty_serial2(); is done in the loop
     
     char ecu_id_reverse[13];
@@ -63,9 +72,11 @@ int checkCoordinator() {
     //  FE0E 67 00 00 FFFF 80971B01A3D8 0000 0709001
     // status = 00 means succes, IEEEAddress= FFFF80971B01A3D8, ShortAdr = 0000, devicetype=07 bits 0 to 2
     
-    //Device State 09 started as zigbeecoordinator     
+    // Device State 09 started as zigbeecoordinator     
     
-    if (diagNose !=0) consoleOut("checkZigbeeRadio");
+    if (diagNose !=0){
+      consoleOut("checkZigbeeRadio");
+    }
     //if(log) Update_Log("zigbee", "checking zb module");
     //check the radio, send FE00670067
     // when ok the returned string = FE0E670000FFFF + ECU_ID REVERSE + 00000709001

@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#include <AsyncWebSocket.h>
+
 void pairOnActionflag() {
     // Start with setup the coordinator
     // Can we pair when the radio is up for normal operation

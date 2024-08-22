@@ -1,4 +1,4 @@
-#include <main.h>
+#include <Arduino.h>
 
 const char LOGPAGE[] PROGMEM = R"=====(
 <!DOCTYPE html>
@@ -67,24 +67,7 @@ const char LOGPAGE[] PROGMEM = R"=====(
         <table id='lijst'>
           <tr>
             <th class='th1'>Time</th>
-            <th class='th2'>Type</th>
-            <th class='th3'>Command</th>
-          </tr>
-)=====";
-
-void handleLogPage(AsyncWebServerRequest *request) {
-    Serial.println("zendPageLog");
-    
-    char page[3072] = {0};
-    char temp[100] = {0};
-    strcpy_P(page, LOGPAGE);
-    
-    uint32_t lengte = strlen(page);
-    uint32_t added = 0;
-    Serial.println("initial length = " + String(lengte));
-
-    byte Log_Count = 0;
-    Log_MaxReached ? Log_Count = Log_MaxEvents : Log_Count = logNr;
+            <th class='th2'>Type</tREQUEST_DENIEDg_MaxEvents : Log_Count = logNr;
     Serial.println("log_Count = " + String(Log_Count));
     Serial.println("printlog current event = " + String(logNr));
     int j = logNr;

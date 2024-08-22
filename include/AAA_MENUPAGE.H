@@ -1,3 +1,6 @@
+#ifndef AAA_MENUPAGE_H
+#define AAA_MENUPAGE_H
+
 const char MENUPAGE[] PROGMEM = R"=====(
 <style> li a { width: 130px; } 
 @media only screen and (max-width: 800px) {
@@ -87,3 +90,5 @@ document.getElementById("help").style.display = "none";
 </div>
 </body></html>
   )=====";
+
+#endif

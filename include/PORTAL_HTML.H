@@ -1,3 +1,6 @@
+#ifndef PORTAL_HTML_H
+#define PORTAL_HTML_H
+
 
 const char PORTAL_STYLESHEET[] = R"=====(
 .table td{padding:.5em;text-align:left}
@@ -96,3 +99,5 @@ click on OK<br><br><br>
 const char PORTAL_LIST[] PROGMEM = R"=====( 
   <div><a href="#p" onclick="c(this)">{v}</a>&nbsp;<span class="q {i}">{r}dBm</span></div>
   )====="; 
+
+#endif

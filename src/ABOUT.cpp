@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#include <ESPAsyncWebServer.h>
+
 const char ABOUT[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html>

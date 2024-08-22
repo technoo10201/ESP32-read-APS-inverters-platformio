@@ -1,3 +1,6 @@
+#ifndef DETAILSPAGE_H
+#define DETAILSPAGE_H
+
 const char DETAILSPAGE [] PROGMEM = R"=====(
 <!DOCTYPE html><html><head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -113,3 +116,5 @@ function loadData() {
 <br><br><br><br>
 </body></html>
 )=====";
+
+#endif

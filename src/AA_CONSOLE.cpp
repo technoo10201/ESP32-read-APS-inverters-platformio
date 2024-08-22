@@ -1,3 +1,5 @@
+#include <AsyncWebSocket.h>
+
 //<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
 const char CONSOLE_HTML[] PROGMEM = R"=====(
@@ -140,14 +142,12 @@ function disConnect() {
 void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
   AwsFrameInfo *info = (AwsFrameInfo*)arg;
 
-  for(int i=0; i<len; i++ ) 
-  {
-  txBuffer[i] = data[i];
+  for(int i=0; i<len; i++ ){
+    txBuffer[i] = data[i];
   }
   txBuffer[len]='\0'; // terminate the array
 
-  if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) 
-  {
+  if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT){
       diagNose = 2; // direct the output to ws
       data[len] = 0;
 
@@ -330,9 +330,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
       
  
       } else {
-
-       
-       ws.textAll("unknown command"); 
+        ws.textAll("unknown command"); 
       }
   
   }

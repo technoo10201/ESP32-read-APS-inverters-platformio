@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#include <mqtt_client.h>
+
 // Fonction pour établir une connexion MQTT
 bool mqttConnect() {   
     // Indique que nous ne sommes pas connectés en faisant clignoter une LED

@@ -1,3 +1,7 @@
+#include <Arduino.h>
+#include <SPIFFS.h>
+#include <ArduinoJson.h>
+
 // ******************   spiffs lezen  *************************
 
 // als er geen spiffs bestand is dan moet hij eigenlijk altijd een ap openenen
@@ -64,6 +68,7 @@ bool leesStruct(String whichfile) {
 
 
 
+
 // **************************************************************************** 
 //                      de gegevens opslaan in SPIFFS                         *  
 // ****************************************************************************
@@ -123,15 +128,15 @@ void mqttConfigsave() {
    //DebugPrintln("saving mqtt config");
     DynamicJsonDocument doc(1024);
     JsonObject json = doc.to<JsonObject>();
-// 
-//    json["Mqtt_Enabled"] = Mqtt_Enabled;
+    
+    // json["Mqtt_Enabled"] = Mqtt_Enabled;
     json["Mqtt_Broker"] = Mqtt_Broker;
     json["Mqtt_Port"] = Mqtt_Port;    
     json["Mqtt_inTopic"] = Mqtt_inTopic;
     json["Mqtt_outTopic"] = Mqtt_outTopic;
     json["Mqtt_Username"] = Mqtt_Username;
     json["Mqtt_Password"] = Mqtt_Password;
-//    json["Mqtt_Idx"] = Mqtt_Idx;
+    // json["Mqtt_Idx"] = Mqtt_Idx;
     json["Mqtt_Format"] = Mqtt_Format;    
     File configFile = SPIFFS.open("/mqttconfig.json", "w");
     if (!configFile) {

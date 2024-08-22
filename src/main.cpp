@@ -1,27 +1,8 @@
 #include <main.h>
-#include <debbug.h>
-#include <globals.h>
+
+
 
 //#include "esp_heap_caps.h"
-
-/* this was compiled with board version
- * latest mods tosend locally declared for info- and detailspages
- *  edit readZigbee
- *  made processIncomingByte redundant
- *  moved crc and slen to sendZigbee
- *  added a debugmessage to sendzigbee when (diag)
- *  removed the line 336 memset crashed the zigbee
- *  testing sending via sendZB 
- *  changed the notation of the invID, saved as was extracted so inverting not needed anymore
- *  experimenting with extractValue() )AAA-DECODE
- *  used arduinojson to make the jsons
- *  made all inverterdata float()
- *  introduced events. // when do we need to refresh
- *  when new data (after a poll, sleep/wakeup midnight)
- *  compressed webpages and scripts combined them to one file
- *  changed the order of handles in the server, the most popular first
- */ 
- 
 
 AsyncWebServer server(80);
 AsyncEventSource events("/events"); 
@@ -43,8 +24,9 @@ bool USB_serial = true;
 char ssid[33] = ""; // was 33 
 char pass[64] = ""; // was 40
 bool tryConnectFlag = false;
+WiFiUDP Udp;
+
 // variables concerning time and timers
-WiFiUDP Udp; 
 //time_t daybeginTime = 0;
 time_t switchoffTime = 0;
 time_t switchonTime = 0;
@@ -139,12 +121,6 @@ unsigned long previousMillis = 0;        // will store last temp was read
 static unsigned long laatsteMeting = 0; //wordt ook bij OTA gebruikt en bij wifiportal
 static unsigned long lastCheck = 0; //wordt ook bij OTA gebruikt en bij wifiportal
 
-#define LED_AAN    HIGH  // sinc
-#define LED_UIT    LOW
-#define knop       0     //
-#define led_onb    2     // onboard led was 2
-#define ZB_RESET   5     // D5
-//#define ZB_TX    17    // D8
 
 // we use this string only to send webpages
 String toSend = "";

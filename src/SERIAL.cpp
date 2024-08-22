@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 void handle_Serial () {
       //DebugPrintln(F("we are in handle serial"));  
       int SerialInByteCounter = 0;

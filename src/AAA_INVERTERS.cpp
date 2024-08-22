@@ -1,3 +1,7 @@
+#include <Arduino.h>
+#include <ESPAsyncWebServer.h>
+#include <SPIFFS.h>
+
 const char INVCONFIG_START[] PROGMEM = R"=====(
 <!DOCTYPE html><html><head><meta charset='utf-8'>
 <title>ESP32-ECU</title>

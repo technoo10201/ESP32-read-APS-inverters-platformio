@@ -1,3 +1,6 @@
+#ifndef DEBUG_H
+#define DEBUG_H
+
 /*
  * if we define TEST we have a special environment to test the decoding of a string
  * for the different invertertypes. We only test inv0. If we set this up as a DS3
@@ -21,3 +24,5 @@
 //#define DebugPrintDec(x)
 //#define DebugPrintln(x)
 //#endif
+
+#endif

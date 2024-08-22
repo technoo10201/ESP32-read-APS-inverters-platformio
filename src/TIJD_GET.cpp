@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#include <WiFiUdp.h>
+
 void getTijd() {
 
   timeRetrieved = false; // stays false until time is retrieved  
