@@ -198,13 +198,13 @@ void setup(){
   for (int x=0; x < inverterCount+1; x++){
     String bestand = "/Inv_Prop" + String(x) + ".str";
 
-    if( diagNose != 0 ){
+    if(diagNose != 0){
       consoleOut("reading file " + bestand);
     }
     
     if (!leesStruct(bestand)){ 
       // if the file not exists we break
-      if( diagNose != 0 ){
+      if(diagNose != 0){
         consoleOut("file " + bestand + "not exists"); //DebugPrintln(bestand);
       }
       break;
@@ -258,15 +258,13 @@ void setup(){
 //*****************************************************************************
 void loop(){
 
-
-
-// ***************************************************************************
-//                       day or night mode
-// ***************************************************************************
-#ifdef TEST
-// always daytime to be able to test
-dayTime = true;
-#endif
+  // ***************************************************************************
+  //                       day or night mode
+  // ***************************************************************************
+  #ifdef TEST
+  // always daytime to be able to test
+  dayTime = true;
+  #endif
  
    if(now() > switchonTime && now() < switchoffTime) 
     {
@@ -373,14 +371,14 @@ dayTime = true;
     handle_Serial();
   }
 
-//  if(getallTrigger){
-//    getallTrigger = false;
-//    events.send( "getall", "message", millis());
-//  }
-//  if(reloadTrigger){
-//    reloadTrigger = false;
-//    events.send( "reload", "message", millis());
-//   }
+  //  if(getallTrigger){
+  //    getallTrigger = false;
+  //    events.send( "getall", "message", millis());
+  //  }
+  //  if(reloadTrigger){
+  //    reloadTrigger = false;
+  //    events.send( "reload", "message", millis());
+  //   }
 }
 //****************  End Loop   *****************************
 
@@ -454,7 +452,7 @@ void test_actionFlag(){
     //  WiFi.end();
     // we write a flag in EEPROM
 
-    if( diagNose != 0 ){
+    if(diagNose != 0){
       consoleOut(F("wifi disconnected"));
     }
 

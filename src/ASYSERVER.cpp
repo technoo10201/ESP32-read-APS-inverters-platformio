@@ -7,8 +7,8 @@
 #include <HTML.H>
 
 
-void start_server() {
-  if( diagNose != 0 ){
+void start_server(){
+  if(diagNose != 0){
     consoleOut("starting server");
   }
   //server.addHandler(&ws);
@@ -18,7 +18,7 @@ void start_server() {
       request->send_P(200, "text/html", CONSOLE_HTML);
     });
 
-  server.on("/details", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/details", HTTP_GET, [](AsyncWebServerRequest *request){
   iKeuze = atoi(request->arg("inv").c_str()) ;
   requestUrl = request->url();
   request->send_P(200, "text/html", DETAILSPAGE);
@@ -34,7 +34,7 @@ void start_server() {
   server.on("/handleFwupdate", HTTP_POST, [](AsyncWebServerRequest *request){
     if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
     Serial.println("FWUPDATE requested");
-    if( !Update.hasError() ) {
+    if( !Update.hasError() ){
     toSend="<br><br><center><h2>UPDATE SUCCESS !!</h2><br><br>";
     toSend +="click here to reboot<br><br><a href='/REBOOT'><input style='font-size:3vw;' type='submit' value='REBOOT'></a>";
     } else {
@@ -47,7 +47,7 @@ void start_server() {
   
   },[](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final){
     //Serial.println("filename = " + filename);
-    if(filename != "") {
+    if(filename != ""){
     if(!index){
       //#ifdef DEBUG
         Serial.printf("start firmware update: %s\n", filename.c_str());
@@ -60,7 +60,7 @@ void start_server() {
       }
     }
     } else {
-      if( diagNose != 0 ){
+      if(diagNose != 0){
         consoleOut("filename empty, aborting");
       }
       //  Update.hasError()=true;
@@ -83,35 +83,35 @@ void start_server() {
   // ***********************************************************************************
   //                                     homepage
   // ***********************************************************************************
-  server.on("/SW=BACK", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/SW=BACK", HTTP_GET, [](AsyncWebServerRequest *request){
       loginBoth(request, "both");
       request->redirect( requestUrl );
   });
 
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
       loginBoth(request, "both");
       //sendHomepage();
       //if( diagNose != 0 ) consoleOut(F("send Homepage"));
       request->send_P(200, "text/html", ECU_HOMEPAGE);
   });
 
-  server.on("/STYLESHEET", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/STYLESHEET", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/css", STYLESHEET);
   });
 
-  server.on("/JAVASCRIPT", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/JAVASCRIPT", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/css", JAVA_SCRIPT);
   });
-  server.on("/INVSCRIPT", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/INVSCRIPT", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/css", INV_SCRIPT);
   });
-  server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request){
       //Serial.println("favicon requested");
       AsyncWebServerResponse *response = request->beginResponse_P(200, "image/x-icon", FAVICON, FAVICON_len);
       request->send(response);
   });
 
-server.on("/MENU", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/MENU", HTTP_GET, [](AsyncWebServerRequest *request){
 //Serial.println("requestUrl = " + request->url() ); // can we use this
 if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
 
@@ -120,16 +120,16 @@ toSend = FPSTR(HTML_HEAD);
 toSend += FPSTR(MENUPAGE);
 request->send(200, "text/html", toSend);
 });
-server.on("/SECURITY", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/SECURITY", HTTP_GET, [](AsyncWebServerRequest *request){
    request->send_P(200, "text/css", SECURITY);
 });
-server.on("/DENIED", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/DENIED", HTTP_GET, [](AsyncWebServerRequest *request){
    request->send_P(200, "text/html", REQUEST_DENIED);
 });
 // ***********************************************************************************
 //                                   basisconfig
 // ***********************************************************************************
-server.on("/BASISCONFIG", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/BASISCONFIG", HTTP_GET, [](AsyncWebServerRequest *request){
   if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
 loginBoth(request, "admin");
 requestUrl = request->url();// remember this to come back after reboot
@@ -137,24 +137,24 @@ zendPageBasis();
 request->send(200, "text/html", toSend);
 });
 
-server.on("/basisconfig", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/basisconfig", HTTP_GET, [](AsyncWebServerRequest *request){
 handleBasisconfig(request);
 //request->send(200, "text/html", toSend);
 request->redirect( requestUrl );
 });
 
-server.on("/IPCONFIG", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/IPCONFIG", HTTP_GET, [](AsyncWebServerRequest *request){
   if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
   loginBoth(request, "admin");
   zendPageIPconfig();
   request->send(200, "text/html", toSend);
 });
 
-server.on("/IPconfig", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/IPconfig", HTTP_GET, [](AsyncWebServerRequest *request){
   handleIPconfig(request);
 });
 
-server.on("/MQTT", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/MQTT", HTTP_GET, [](AsyncWebServerRequest *request){
   if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
   loginBoth(request, "admin");
   requestUrl = request->url();
@@ -162,12 +162,12 @@ server.on("/MQTT", HTTP_GET, [](AsyncWebServerRequest *request) {
   request->send(200, "text/html", toSend);
 });
 
-server.on("/MQTTconfig", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/MQTTconfig", HTTP_GET, [](AsyncWebServerRequest *request){
   handleMQTTconfig(request);
   request->redirect( requestUrl );
 });
 
-server.on("/GEOCONFIG", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/GEOCONFIG", HTTP_GET, [](AsyncWebServerRequest *request){
   if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
   loginBoth(request, "admin");
   requestUrl = request->url();
@@ -175,20 +175,20 @@ server.on("/GEOCONFIG", HTTP_GET, [](AsyncWebServerRequest *request) {
   request->send(200, "text/html", toSend);
 });
 
-server.on("/geoconfig", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/geoconfig", HTTP_GET, [](AsyncWebServerRequest *request){
   //DebugPrintln(F("geoconfig requested"));
   handleGEOconfig(request);
   request->redirect( requestUrl );
 });
 
-server.on("/REBOOT", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/REBOOT", HTTP_GET, [](AsyncWebServerRequest *request){
   loginBoth(request, "admin");
   actionFlag = 10;
   confirm(); 
   request->send(200, "text/html", toSend);
 });
 
-server.on("/STARTAP", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/STARTAP", HTTP_GET, [](AsyncWebServerRequest *request){
   if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
   loginBoth(request, "admin");
   String toSend = F("<!DOCTYPE html><html><head><script type='text/javascript'>setTimeout(function(){ window.location.href='/SW=BACK'; }, 5000 ); </script>");
@@ -197,41 +197,41 @@ server.on("/STARTAP", HTTP_GET, [](AsyncWebServerRequest *request) {
   actionFlag = 11;
 });
 
-//server.on("/INFOPAGE", HTTP_GET, [](AsyncWebServerRequest *request) {
+//server.on("/INFOPAGE", HTTP_GET, [](AsyncWebServerRequest *request){
 ////Serial.println(F("/INFOPAGE requested"));
 //loginBoth(request, "both");
 //handleInfo(request);
 //});
-server.on("/ABOUT", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/ABOUT", HTTP_GET, [](AsyncWebServerRequest *request){
 Serial.println(F("/INFOPAGE requested"));
 loginBoth(request, "both");
 handleAbout(request);
 });
-server.on("/TEST", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/TEST", HTTP_GET, [](AsyncWebServerRequest *request){
   loginBoth(request, "admin");
   actionFlag = 44;
   request->send( 200, "text/html", "<center><br><br><h3>checking zigbee.. please wait a minute.<br>Then you can find the result in the log.<br><br><a href=\'/LOGPAGE\'>click here</a></h3>" );
 });
 
-server.on("/LOGPAGE", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/LOGPAGE", HTTP_GET, [](AsyncWebServerRequest *request){
   loginBoth(request, "both");
   requestUrl = request->url();
   handleLogPage(request);
   //request->send_P(200, "text/html", LOGPAGE, putList);
 });
 
-server.on("/CLEAR_LOG", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/CLEAR_LOG", HTTP_GET, [](AsyncWebServerRequest *request){
       if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
       loginBoth(request, "admin");
       Clear_Log(request);
       request->redirect( "/LOGPAGE" ); // refreshes the page
 });
 
-server.on("/MQTT_TEST", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/MQTT_TEST", HTTP_GET, [](AsyncWebServerRequest *request){
 loginBoth(request, "admin");
 char Mqtt_send[26] = {0};
 strcpy( Mqtt_send , Mqtt_outTopic);
-if(Mqtt_send[strlen(Mqtt_send -1)] == '/') {
+if(Mqtt_send[strlen(Mqtt_send -1)] == '/'){
   strcat(Mqtt_send, String(Inv_Prop[0].invIdx).c_str());
 }
 
@@ -245,7 +245,7 @@ request->send( 200, "text/plain", toSend  );
 // ********************************************************************
 //                    inverters
 // ******************************************************************
-server.on("/PAIR", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/PAIR", HTTP_GET, [](AsyncWebServerRequest *request){
   if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
   loginBoth(request, "admin");
   requestUrl = request->url();
@@ -253,30 +253,30 @@ server.on("/PAIR", HTTP_GET, [](AsyncWebServerRequest *request) {
   handlePair(request);
 });
 
-server.on("/INV_DEL", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/INV_DEL", HTTP_GET, [](AsyncWebServerRequest *request){
   if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
   handleInverterdel(request);
 });
 
-server.on("/inverterconfig", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/inverterconfig", HTTP_GET, [](AsyncWebServerRequest *request){
 //requestUrl = "/";
 handleInverterconfig(request);
 });
 
-server.on("/INV_CONFIG", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/INV_CONFIG", HTTP_GET, [](AsyncWebServerRequest *request){
   if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );  
   iKeuze=0;
   inverterForm(); // prepare the page part with the form
   request->send_P(200, "text/html", INVCONFIG_START, processor);
 });
 
-server.on("/INV", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/INV", HTTP_GET, [](AsyncWebServerRequest *request){
     requestUrl = "/";
     //bool nothing = false;
     int i = atoi(request->arg("welke").c_str()) ;
     iKeuze = i;
     //DebugPrintln("?INV iKeuze at enter = " + String(iKeuze));
-    if( iKeuze == 99 ) {
+    if( iKeuze == 99 ){
         iKeuze = inverterCount; //indicate this is an adition
         inverterCount += 88;
         }
@@ -287,7 +287,7 @@ server.on("/INV", HTTP_GET, [](AsyncWebServerRequest *request) {
      request->send_P(200, "text/html", INVCONFIG_START, processor); //send the html code to the client
 });
 
-server.on("/CONFIRM_INV", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/CONFIRM_INV", HTTP_GET, [](AsyncWebServerRequest *request){
     toSend = FPSTR(CONFIRM_INV); // prepare the page
     request->send(200, "text/html", toSend); //send the html code to the client
 });
@@ -296,19 +296,19 @@ server.on("/CONFIRM_INV", HTTP_GET, [](AsyncWebServerRequest *request) {
 //***********************************************************************
 
 
-//server.on("/get.currentTime", HTTP_GET, [](AsyncWebServerRequest *request) {
+//server.on("/get.currentTime", HTTP_GET, [](AsyncWebServerRequest *request){
 //     //ledblink(1, 100);
 //     String uur = String(hour());
-//     if(hour() < 10) { uur = "0" + String(hour()); } 
+//     if(hour() < 10){ uur = "0" + String(hour()); } 
 //      String minuten = String(minute());
-//      if(minute() < 10) { minuten = "0" + String(minute()); }
+//      if(minute() < 10){ minuten = "0" + String(minute()); }
 //     String json = "{";
 //     json += "\"uur\":\"" + uur + "\",\"min\":\"" + minuten + "\"}";
 //     request->send(200, "text/json", json);
 //     json = String();
 //});
 
-//server.on("/get.Times", HTTP_GET, [](AsyncWebServerRequest *request) {
+//server.on("/get.Times", HTTP_GET, [](AsyncWebServerRequest *request){
 //  
 //     String json = "{";
 //     // start polling
@@ -328,18 +328,18 @@ server.on("/CONFIRM_INV", HTTP_GET, [](AsyncWebServerRequest *request) {
 //     json = String();
 //});
 
-server.on("/get.Times", HTTP_GET, [](AsyncWebServerRequest *request) {
+server.on("/get.Times", HTTP_GET, [](AsyncWebServerRequest *request){
   //{"srt":"05:37 hr","sst":"21:32 hr"}
      char json[40] = {0};
      char temp[20]={0};
      // start polling
-     if(minute(switchonTime) < 10 ) {
+     if(minute(switchonTime) < 10 ){
        sprintf(temp,"{\"srt\":\"0%d:0%d hr\"", hour(switchonTime), minute(switchonTime) );
      } else {
        sprintf(temp,"{\"srt\":\"0%d:%d hr\"", hour(switchonTime), minute(switchonTime) );
      }
      strcat(json, temp);
-     if( minute(switchoffTime) < 10 ) {
+     if( minute(switchoffTime) < 10 ){
         sprintf(temp,",\"sst\":\"%d:0%d hr\"}", hour(switchoffTime), minute(switchoffTime) );
      } else {
         sprintf(temp,",\"sst\":\"%d:%d hr\"}", hour(switchoffTime), minute(switchoffTime) );
@@ -351,20 +351,20 @@ server.on("/get.Times", HTTP_GET, [](AsyncWebServerRequest *request) {
 });
 
 // this link is called by the detailspage
-server.on("/get.Inverter", HTTP_GET, [](AsyncWebServerRequest *request) { 
+server.on("/get.Inverter", HTTP_GET, [](AsyncWebServerRequest *request){ 
 // this is used by the detailspage and for http requests      
 // set the array into a json object
 
 //  int panelCount=4;
   int i;
-  if (request->hasArg("inv")) {
+  if (request->hasArg("inv")){
      i = (request->arg("inv").toInt()) ;
   } else {
      i = iKeuze;
   //request->send(200, "text/plain", "no argument provided");
   }
   //Serial.println("i = " + String(i));
-  if( i < inverterCount) {
+  if( i < inverterCount){
 
 char json[350]={0} ;     
 // we need name polled type id serial
@@ -397,7 +397,7 @@ snprintf(json, sizeof(json), "{\"inv\":\"%d\",\"name\":\"%s\",\"polled\":\"%d\",
 });
     
 // this link provides the inverterdata on the frontpage
-server.on("/get.Power", HTTP_GET, [](AsyncWebServerRequest *request) {     
+server.on("/get.Power", HTTP_GET, [](AsyncWebServerRequest *request){     
 // set the array into a json object
 
       uint8_t remote = 0;
@@ -406,9 +406,9 @@ server.on("/get.Power", HTTP_GET, [](AsyncWebServerRequest *request) {
       int i = atoi(request->arg("inv").c_str()) ;
 
       uint8_t night = 0; 
-      if(!timeRetrieved ) { night=0; } else {
+      if(!timeRetrieved ){ night=0; } else {
      //if(now() > switchonTime && now() < switchoffTime )
-      if(dayTime) { night = 0; } else { night = 1; } 
+      if(dayTime){ night = 0; } else { night = 1; } 
       }
       snprintf(json, sizeof(json), "{\"nm\":\"%s\",\"polled\":\"%d\",\"type\":\"%d\",\"count\":\"%d\",\"remote\":\"%d\",\"state\":\"%d\",\"sleep\":\"%d\"" ,Inv_Prop[i].invLocation, polled[i], Inv_Prop[i].invType, inverterCount, remote, zigbeeUp, night );
 
@@ -417,7 +417,7 @@ server.on("/get.Power", HTTP_GET, [](AsyncWebServerRequest *request) {
       for(int z = 0; z < 4; z++ ) 
       {
          //is the panel connected? if not put n/e
-           if( ! Inv_Prop[i].conPanels[z] ) { sprintf(pan[z], ",\"p%d\":\"n/e\"", z);  }  
+           if( ! Inv_Prop[i].conPanels[z] ){ sprintf(pan[z], ",\"p%d\":\"n/e\"", z);  }  
          // so the panel is connected, is the inverter polled?
          else if (polled[i]) 
          {
@@ -431,7 +431,7 @@ server.on("/get.Power", HTTP_GET, [](AsyncWebServerRequest *request) {
       strcat(json, pan[z]);
       }
      char tail[20]={0};
-     if (polled[i]) {
+     if (polled[i]){
        sprintf(tail, ",\"eN\":\"%.2f\"}", Inv_Data[i].en_total/(float)1000);
        strcat(json, tail);
      } else {
@@ -442,7 +442,7 @@ server.on("/get.Power", HTTP_GET, [](AsyncWebServerRequest *request) {
 
 
 
-server.on("/get.Paired", HTTP_GET, [](AsyncWebServerRequest *request) {     
+server.on("/get.Paired", HTTP_GET, [](AsyncWebServerRequest *request){     
 // set the array into a json object
   String json="{";
   json += "\"invID\":\"" + String(Inv_Prop[iKeuze].invID) + "\"";
@@ -460,6 +460,6 @@ server.onNotFound([](AsyncWebServerRequest *request){
 server.begin(); 
 }
 
-void confirm() {
+void confirm(){
 toSend="<html><body onload=\"setTimeout(function(){window.location.href='/';}, 3000 );\"><br><br><center><h3>processing<br>your request,<br>please wait</html>";
 }

@@ -36,7 +36,7 @@ void polling(int which){
           yield();
           break;
     default:
-          if( diagNose != 0 ){
+          if(diagNose != 0){
             consoleOut("polling failed with errorcode " + String(errorCode)); 
           }
   }

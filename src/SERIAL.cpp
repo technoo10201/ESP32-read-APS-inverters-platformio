@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-void handle_Serial () {
+void handle_Serial (){
       //DebugPrintln(F("we are in handle serial"));  
       int SerialInByteCounter = 0;
       InputBuffer_Serial[0] = '\0'; // make it like empty
@@ -8,13 +8,13 @@ void handle_Serial () {
       delay(200); // wait untill maybe more data available
       Serial.println("serial data available: " + String(Serial.available()) );
   
-      while(Serial.available()) {
+      while(Serial.available()){
              SerialInByte=Serial.read(); 
             
-            if(isprint(SerialInByte)) {
+            if(isprint(SerialInByte)){
               if(SerialInByteCounter<100) InputBuffer_Serial[SerialInByteCounter++]=SerialInByte;
             }    
-            if(SerialInByte=='\n') {                                              // new line character
+            if(SerialInByte=='\n'){                                              // new line character
               InputBuffer_Serial[SerialInByteCounter]=0;
               break; // serieel data is complete
             }
@@ -22,10 +22,10 @@ void handle_Serial () {
      Serial.println("InputBuffer_Serial = " + String(InputBuffer_Serial) );
      diagNose = 1; // direct the output to serial
      // evaluate the incomming data
-     if (strlen(InputBuffer_Serial) > 6) {                                // need to see minimal 8 characters on the serial port
-       if (strncmp (InputBuffer_Serial,"10;",3) == 0) {                 // Command from Master to RFLink
+     if (strlen(InputBuffer_Serial) > 6){                                // need to see minimal 8 characters on the serial port
+       if (strncmp (InputBuffer_Serial,"10;",3) == 0){                 // Command from Master to RFLink
   
-          if (strncasecmp(InputBuffer_Serial+3,"HELP",4) == 0) {
+          if (strncasecmp(InputBuffer_Serial+3,"HELP",4) == 0){
               scroll(4);
               Serial.println(F("*** AVAILABLE COMMANDS ***"));
               Serial.println(F("10;DIAG=x; (if x = 1 set diagNose for serial debug)"));
@@ -42,7 +42,7 @@ void handle_Serial () {
               return;
           } else 
 
-          if (strncasecmp(InputBuffer_Serial+3,"INV_REBOOT",10) == 0) {
+          if (strncasecmp(InputBuffer_Serial+3,"INV_REBOOT",10) == 0){
             scroll(2);
               scroll(4);
               Serial.println(F("\nYou can reboot an inverter when it stopped working."));
@@ -53,7 +53,7 @@ void handle_Serial () {
           } else
               
 // // ********************** zigbee test new*****************************          
-           if (strncasecmp(InputBuffer_Serial+3,"ZBT=",4) == 0) { 
+           if (strncasecmp(InputBuffer_Serial+3,"ZBT=",4) == 0){ 
             char tmp[128]={0}; 
             int len = strlen(InputBuffer_Serial); 
               Serial.println("\n\nsend a zigbee command, len=" + String(len));
@@ -67,15 +67,15 @@ void handle_Serial () {
           
       } else 
           
-           if (strncasecmp(InputBuffer_Serial+3,"EDIT=",5) == 0) {
+           if (strncasecmp(InputBuffer_Serial+3,"EDIT=",5) == 0){
              int kz = String(InputBuffer_Serial[8]).toInt();
             Serial.print(F("received EDIT=")); Serial.println(String(kz) ); 
-              if ( kz > inverterCount-1 ) {
+              if ( kz > inverterCount-1 ){
               Serial.println(F("\n\nerror, no such inverter"));
               return;  
               }
               char invid[5];
-              for(int i=10;  i<15; i++) { invid[i-10] = InputBuffer_Serial[i]; }
+              for(int i=10;  i<15; i++){ invid[i-10] = InputBuffer_Serial[i]; }
               Serial.print(F("\n\nedit inverter ")); Serial.println(String(kz));
               Serial.print(F("id = ")); Serial.println(String(invid));
               strncpy(Inv_Prop[kz].invID, invid, 4);
@@ -84,14 +84,14 @@ void handle_Serial () {
               return;
           } else          
           
-          if (strncasecmp(InputBuffer_Serial+3,"POLL=",5) == 0) {
+          if (strncasecmp(InputBuffer_Serial+3,"POLL=",5) == 0){
             //input can be 10;POLL=0;  
               int kz = String(InputBuffer_Serial[8]).toInt();
-              if ( kz > inverterCount ) {
+              if ( kz > inverterCount ){
               Serial.println(F("\n\nerror, non-excisting inverter"));
               return;  
               }
-              if(kz==9) {
+              if(kz==9){
                 Serial.println(F("\n\npolling all inverters"));
                 ledblink(1,100);
                 for(int i=0; i<inverterCount; i++)
@@ -107,9 +107,9 @@ void handle_Serial () {
           
           
           // simulate a polled inverter
-          if (strncasecmp(InputBuffer_Serial+3,"FORCE=",6) == 0) {
+          if (strncasecmp(InputBuffer_Serial+3,"FORCE=",6) == 0){
               Serial.println(F("\n\nforce values in Inv_Data for all ")); 
-              for (int z=0; z<inverterCount; z++) {
+              for (int z=0; z<inverterCount; z++){
                    polled[z] = true; 
                    sprintf(Inv_Prop[z].invID, "%s", "A1B2");
                       
@@ -141,7 +141,7 @@ void handle_Serial () {
           } else
 
 
-//          if (strncasecmp(InputBuffer_Serial+3,"WIFICON=", 7) == 0) {
+//          if (strncasecmp(InputBuffer_Serial+3,"WIFICON=", 7) == 0){
 //          char * pass;
 //          char * ssid;
 //          char * tmp;
@@ -159,43 +159,43 @@ void handle_Serial () {
 //            pass = strtok(NULL, ",");
 //            Serial.println("ssid/pass=" + String(ssid) + "/" + String(pass) );
 //            event=0;
-//            while (WiFi.status() != WL_CONNECTED) {
+//            while (WiFi.status() != WL_CONNECTED){
 //              delay(500);
 //              Serial.print("*");
 //              WiFi.begin();
 //              event+=1;
-//              if (event==10) {break;}
+//              if (event==10){break;}
 //              }
 //              if (event == 10) Serial.println("wifi failed");
 //              return;
 //          
 //          } else
 
-           if (strncasecmp(InputBuffer_Serial+3,"FILES",5) == 0) {  
+           if (strncasecmp(InputBuffer_Serial+3,"FILES",5) == 0){  
               showDir();
               return;  
           } else
 
-           if (strncasecmp(InputBuffer_Serial+3,"INIT_N",6) == 0) {  
+           if (strncasecmp(InputBuffer_Serial+3,"INIT_N",6) == 0){  
               Serial.println(F("\n\ninit the zb system for normal operation"));
               coordinator(true); // start coordinator for normal ops
               return;             
           } else
            
-           if (strncasecmp(InputBuffer_Serial+3,"HEALTH",6) == 0) {  
+           if (strncasecmp(InputBuffer_Serial+3,"HEALTH",6) == 0){  
               Serial.println(F("\n\nchecking the ZB system"));
               healthCheck();
               return;             
           } else
   
-           if (strncasecmp(InputBuffer_Serial+3,"ZB_reset",8) == 0) {  
+           if (strncasecmp(InputBuffer_Serial+3,"ZB_reset",8) == 0){  
               Serial.println(F("\n\nhard reset the cc2530"));
               ZBhardReset();
               return; 
            } else
 
 // ************************ test mosquitto *****************************
-            if (strncasecmp(InputBuffer_Serial+3,"TESTMQTT",8) == 0) {  
+            if (strncasecmp(InputBuffer_Serial+3,"TESTMQTT",8) == 0){  
               ws.textAll("test mosquitto");
               actionFlag=49; // perform the healthcheck
               diagNose=true;
@@ -207,7 +207,7 @@ void handle_Serial () {
       if (strncasecmp(InputBuffer_Serial+3, "TESTINV",7) == 0)  
       {
         Serial.println("command = " + String(InputBuffer_Serial) );  
-      if(testCounter > 1) { 
+      if(testCounter > 1){ 
         testCounter=0; // reset testcounter
         // make all values null
         resetValues(true, false);
@@ -229,6 +229,6 @@ void handle_Serial () {
   empty_serial();
 } // 
 
-  void scroll(int aantal) {
-    for (int x=0;x<aantal; x++) { Serial.println(F("\n")); }
+  void scroll(int aantal){
+    for (int x=0;x<aantal; x++){ Serial.println(F("\n")); }
   }

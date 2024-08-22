@@ -48,7 +48,7 @@ void handleInverterconfig(AsyncWebServerRequest *request)
   
   // is this a addition?
   String bestand = "/Inv_Prop" + String(iKeuze) + ".str"; // Inv_Prop0.str
-  if( diagNose != 0 ){
+  if(diagNose != 0){
     consoleOut("going to write " + bestand );
   } 
 
@@ -56,7 +56,7 @@ void handleInverterconfig(AsyncWebServerRequest *request)
   writeStruct(bestand, iKeuze); // alles opslaan in SPIFFS
   if(iKeuze == inverterCount){
     inverterCount += 1;
-    if( diagNose != 0 ){
+    if(diagNose != 0){
       onsoleOut("we appended, inverterCount now : " + String(inverterCount)); 
     }
   }
@@ -282,7 +282,7 @@ void inverterForm(){
 
         } else {
         // the file does not exist so we show an empty page
-        if( diagNose != 0 ){
+        if(diagNose != 0){
           consoleOut("File does not exist");
         }
         toSend.replace("invtype_2", "selected");

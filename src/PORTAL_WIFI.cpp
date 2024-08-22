@@ -4,21 +4,21 @@
 
 class CaptiveRequestHandler : public AsyncWebHandler {
 public:
-  CaptiveRequestHandler() {}
-  virtual ~CaptiveRequestHandler() {}
+  CaptiveRequestHandler(){}
+  virtual ~CaptiveRequestHandler(){}
 
-  bool canHandle(AsyncWebServerRequest *request) {
+  bool canHandle(AsyncWebServerRequest *request){
     //request->addInterestingHeader("ANY");
     return true;
   }
 
-  void handleRequest(AsyncWebServerRequest *request) {
+  void handleRequest(AsyncWebServerRequest *request){
     handlePortalRoot();
     request->send(200, "text/html", toSend); //send the html code to the client
   }
 };
 
-void start_portal() {
+void start_portal(){
   // setup of configportal and next an infinitive loop
 
   WiFi.mode(WIFI_OFF); // otherwise the scanning fails
@@ -49,47 +49,47 @@ void start_portal() {
 
   /* Setup web pages: root, wifi config pages, SO captive portal detectors and not found. */
 
-  server.on("/redirect", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/redirect", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("/redirect requested");
     handlePortalRoot();
     request->send(200, "text/html", toSend); //send the html code to the client
   });
 
-  server.on("/fwlink", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/fwlink", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("/redirect requested");
     handlePortalRoot();
     request->send(200, "text/html", toSend); //send the html code to the client
   });
 
-  server.on("/Bback", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/Bback", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("/Bback requested");
     handlePortalRoot();
     //sendHeaders();
     request->send(200, "text/html", toSend); //send the html code to the client
   });
 
-  server.on("/Bback", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/Bback", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("/Bback requested");
     handlePortalRoot();
     //sendHeaders();
     request->send(200, "text/html", toSend); //send the html code to the client
   });
 
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("/ requested");
     handlePortalRoot();
     //sendHeaders();
     request->send(200, "text/html", toSend); //send the html code to the client
   });
 
-  server.on("/wifiForm", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/wifiForm", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("/wifiForm requested");
     handleForm();
     //sendHeaders();
     request->send(200, "text/html", toSend); //send the html code to the client
   });
 
-  server.on("/PORTAL_STYLE", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/PORTAL_STYLE", HTTP_GET, [](AsyncWebServerRequest *request){
     //Serial.println("stylesheet requested");
     request->send_P(200, "text/css", PORTAL_STYLESHEET);
   });
@@ -97,7 +97,7 @@ void start_portal() {
   // **********************************************************
   //                   CONNECTING TO WIFI
   // **********************************************************
-  server.on("/wifiCon", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/wifiCon", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("/wifiCon requested");
     laatsteMeting = millis(); //om de timeout te verversen
     char ssid[33] = "";
@@ -118,7 +118,7 @@ void start_portal() {
     WiFi.begin(ssid, pass);
     Serial.println("send confirm page  ");
 
-    if (connectWifi() == WL_CONNECTED) {
+    if (connectWifi() == WL_CONNECTED){
       Serial.println("youpy, connected");
       esp_task_wdt_reset();
       digitalWrite(led_onb, LED_UIT);
@@ -133,7 +133,7 @@ void start_portal() {
 
     toSend = FPSTR(PORTAL_CONFIRM);
 
-    if (event == 100) {
+    if (event == 100){
       toSend.replace("{text}", "connection has failed");
     } else {
       toSend.replace("{text}", "connection success");
@@ -143,7 +143,7 @@ void start_portal() {
   });
 
   //server.onNotFound(handlePortalNotFound);
-  server.onNotFound([](AsyncWebServerRequest *request) {
+  server.onNotFound([](AsyncWebServerRequest *request){
     String message = "file not found";
     AsyncWebServerResponse *response = request->beginResponse(404, "text/plain", message);
     response->addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -155,7 +155,7 @@ void start_portal() {
 
   //server.on("/LittleFS_ERASE", eraseFiles);
   //server.on("/STATIC_ERASE", resetStatic);
-  server.on("/STATIC_ERASE", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/STATIC_ERASE", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("static erase requested");
     String toSend = F("<!DOCTYPE html><html><head>");
     toSend += F("<script type='text/javascript'>setTimeout(function(){ window.location.href='/redirect'; }, 500 ); </script>");
@@ -168,7 +168,7 @@ void start_portal() {
     request->send(200, "text/html", toSend); //send the html code to the client
   });
 
-  server.on("/close", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/close", HTTP_GET, [](AsyncWebServerRequest *request){
     handlePortalClose();
     request->send(200, "text/html", toSend); //send the html code to the client
   });
@@ -187,17 +187,17 @@ void start_portal() {
 
   // this is the infinitive loop
   static unsigned long heartbeat = 0;
-  while (millis() < laatsteMeting + 300 * 1000UL) { // 5 minuten== 300 30 == 30sec
-    if (millis() > heartbeat + 10 * 1000UL) {
+  while (millis() < laatsteMeting + 300 * 1000UL){ // 5 minuten== 300 30 == 30sec
+    if (millis() > heartbeat + 10 * 1000UL){
       heartbeat = millis(); // elke 10 sec een heartbeat
       Serial.print("a ");
     }
     // SERIAL: *************** see if there is data available **********************
-    // if(Serial.available()) {
+    // if(Serial.available()){
     // handle_Serial();
     // }
 
-    if (tryConnectFlag) { // there are credentials provided
+    if (tryConnectFlag){ // there are credentials provided
       wifiConnect(); // if connected we break out of this loop
     }
     //DNS
@@ -206,7 +206,7 @@ void start_portal() {
   // ************************ end while loop *******************************
 
   //we only are here after a timeout. If we click finish we restart
-  // if (Timed_Out == true) {
+  // if (Timed_Out == true){
   Serial.println("portal timed out, resetting...");
   ESP.restart();
   // }
@@ -215,7 +215,7 @@ void start_portal() {
 // ********************************************************************
 //                 de homepagina van het portal
 // ********************************************************************
-void handlePortalRoot() {
+void handlePortalRoot(){
   // always as we are here, portalstart is updated, so when there is activity in the
   // webinterface we won't time out.
   //sendHeaders();
@@ -223,7 +223,7 @@ void handlePortalRoot() {
   Serial.println("handlePortalRoot, event = " + String(event));
   //toSend = FPSTR(PORTAL_HEAD);
   toSend = FPSTR(PORTAL_PAGE);
-  //toSend.replace("{haha}" , "if (window.location.hostname != \"192.168.4.1\") {window.location.href = 'http://192.168.4.1'};");
+  //toSend.replace("{haha}" , "if (window.location.hostname != \"192.168.4.1\"){window.location.href = 'http://192.168.4.1'};");
   toSend.replace("{maandstroom}", "{maandstroom} W");
   toSend.replace("{uurstroom}", "{uurstroom} W");
   toSend.replace("{status}", "solarimeter");
@@ -233,7 +233,7 @@ void handlePortalRoot() {
   toSend.replace("{netwerkenFound}", String(networksFound));
   String options = FPSTR(HTTP_FORM_START);
 
-  for (int n = 0; n < networksFound; n++) {
+  for (int n = 0; n < networksFound; n++){
     options += FPSTR(HTTP_FORM_ITEM);
     options.replace("{v}", WiFi.SSID(n));
     options.replace("{r}", String(WiFi.RSSI(n)));

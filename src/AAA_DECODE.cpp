@@ -29,7 +29,7 @@ int decodePollAnswer(int which)
         return 50; //no answer
       }
 
-    if( diagNose != 0 ){
+    if(diagNose != 0){
       consoleOut("decodePollAnswer inverter " + String(which) );
     }
  
@@ -76,7 +76,7 @@ int decodePollAnswer(int which)
 
     //sigQ = roundoff( (float) (extractValue(14, 2, 1, 0, tail) * 100 / 254 ), 1);
     dtostrf((float)(extractValue(14, 2, 1, 0, tail) * 100 / 255 ), 0, 1, Inv_Data[which].sigQ);
-    if( diagNose != 0 ){
+    if(diagNose != 0){
       consoleOut( "extracted sigQ = " + String(Inv_Data[which].sigQ) );
     }
     //    dtostrf((float)(extractValue(68, 4, 1, 0, s_d) / 3.8 ), 0, 1, Inv_Data[which].acv);

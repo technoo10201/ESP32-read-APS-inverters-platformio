@@ -9,8 +9,8 @@ float en_total = 0;
 dtostrf(float_value, min_width, num_digits_after_decimal, where_to_store_string)
 
 */
-void force_values() {
-  for(int z=0; z<inverterCount; z++) { // for all inverters
+void force_values(){
+  for(int z=0; z<inverterCount; z++){ // for all inverters
     int q = 2; // count of panels 
     
     if(Inv_Prop[z].invType == 1){

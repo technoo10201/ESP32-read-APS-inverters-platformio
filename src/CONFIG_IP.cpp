@@ -6,15 +6,15 @@ const char IPCONFIG[] PROGMEM = R"=====(
 <body onload='showTable()'>
 
 <script type="text/javascript">
-function showTable() {
+function showTable(){
 var tbl = document.getElementById('choice').value;
-if (tbl == 'STAT') {
+if (tbl == 'STAT'){
     document.getElementById('tabel').style.display="block";
   } else {
     document.getElementById('tabel').style.display="none";
   } 
 }
-function submitF() {
+function submitF(){
    document.getElementById('fM').submit();  
 }
 </script>
@@ -70,7 +70,7 @@ function submitF() {
 </body></html>
 )=====";
 
-void zendPageIPconfig() {
+void zendPageIPconfig(){
    //if( diagNose != 0 )("we are now on zendPageIPconfig");
    //loginAdmin(AsyncWebServerRequest *request);
    toSend = FPSTR(HTML_HEAD);
@@ -115,7 +115,7 @@ void zendPageIPconfig() {
   toSend.replace("{title}" , deel_a);  
 }
 
-void handleIPconfig(AsyncWebServerRequest *request) {
+void handleIPconfig(AsyncWebServerRequest *request){
 
   char static_ip2[16] = "";
 
@@ -137,7 +137,7 @@ void handleIPconfig(AsyncWebServerRequest *request) {
   // see if dhcp is selected. if yes, empty static_ip2
   String optie = request->getParam("keuze")->value();
   //String optie = server.arg("keuze");
-  if ( optie == "DHCP") {
+  if ( optie == "DHCP"){
       if( diagNose != 0 ) consoleOut("dhcp set, dropped static_ip, optie = " + optie);
       //if( diagNose != 0 ) consoleOut(optie);
       static_ip2[0] = '\0';

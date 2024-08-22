@@ -73,7 +73,7 @@ const char BASISCONFIG[] PROGMEM = R"=====(
 </html>
 )=====";
 
-void zendPageBasis() {
+void zendPageBasis(){
   //DebugPrintln("we zijn nu op zendPageBasis");
   toSend = FPSTR(HTML_HEAD);
   toSend += FPSTR(BASISCONFIG);
@@ -84,13 +84,13 @@ void zendPageBasis() {
   toSend.replace("'{pw1}'", "'" + String(userPwd) + "'");
   toSend.replace("'{of}'", "'" + String(pollOffset) + "'"); 
   
-  if (Polling) { 
+  if (Polling){ 
     toSend.replace("#check", "checked");
   }
   // toSend.replace("'{ca}'", "'" + String(calliBration) + "'");
 }
 
-void handleBasisconfig(AsyncWebServerRequest *request) { 
+void handleBasisconfig(AsyncWebServerRequest *request){ 
   // Form action = handleConfigsave
   // Verzamelen van de serverargumenten   
   strcpy(ECU_ID, request->arg("ecuid").c_str());
@@ -101,16 +101,16 @@ void handleBasisconfig(AsyncWebServerRequest *request) {
   
   // This value gets currupted when it is negative, we get 256 -/- the number
   // So -2 becomes 254
-  // if (po > 200) { pollOffset = po - 256; } else { pollOffset = po; } 
+  // if (po > 200){ pollOffset = po - 256; } else { pollOffset = po; } 
   
   // calliBration = request->arg("cali").toFloat();
   
   // BEWARE CHECKBOX
   String dag = "";
-  if (request->hasParam("pL")) {
+  if (request->hasParam("pL")){
     dag = request->getParam("pL")->value();  
   }
-  if (dag == "on") { 
+  if (dag == "on"){ 
     Polling = true; 
   } else { 
     Polling = false;

@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 // we can send a zigbee message via serial console
-void testMessage(bool console) {
+void testMessage(bool console){
       char sendCmd[100]={0};
       char reCeived[254]={0};
       int len;
@@ -10,7 +10,7 @@ void testMessage(bool console) {
       //put all the bytes of inputBuffer_Serial ( or txBuffer) in sendCmd, starting at pos 7
       for(int i=0; i<len; i++) 
       {
-         if(console) { sendCmd[i] = InputBuffer_Serial[i+7];} else sendCmd[i] = txBuffer[i+7];
+         if(console){ sendCmd[i] = InputBuffer_Serial[i+7];} else sendCmd[i] = txBuffer[i+7];
       }
        
        //now we send this command
@@ -29,14 +29,14 @@ void testMessage(bool console) {
 
 
 #ifdef TEST
-void testDecode() {
+void testDecode(){
     // we feed the decoding of a polling answer with an artificial polling answer
     // we always test inverter 0, depending on the type we test the right string
     // So if we want to test a ds3 we have to define inverter0 as ds3
     int type = Inv_Prop[0].invType; //
     // we define an inmessage first
     
-    switch(type) {
+    switch(type){
      case 0: // yc600
        strncpy(inMessage, "FE0164010064FE034480001401D2FE0345C43A1000A8FE724481000006013A101414007100B57CFA00005E408000158215FBFB51B103D40F4117000074CF00000076706A73D06B0496000000000000000172072D88017862E8201F00030555073F0303030100000100000000000000000000000000000000000000000000000000000000000000FEFE3A100E76",300);
        break;
@@ -44,7 +44,7 @@ void testDecode() {
        strncpy(inMessage, "FE0164010064FE034480001401D2FE72448100000601C0051414005E00905D5B00005E801000085070FBFB51B103EB0F419300CAF069D9F068C7C068C1206804B868E0000006A80001BB38134D01CCE90E0A01FD1E052201D967D0641F0003055400000000000000000000000000000000000000000000000000002B2A0000FEFEC0050E55",300);
        break;
      case 2: // ds3
-       if(testCounter == 0) {
+       if(testCounter == 0){
     // from npeters tracefile at 9:53 and 9:57
        strncpy(inMessage, "FE0164010064FE034480001401D2FE0345C4226C00CCFE0345C4226C00CCFE0345C43A1000A8FE724481000006013A101414007100B57CFA00005E703000021300fbfb5cbbbb2000fc0001ffff000000000000000006e506ee00E200EA036e13882D5F01480026ffff052508430049F8C40048C77C00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3896fefe",300);   
     //                                                                                                                                           >                                                   26                      tttt                    100     108       

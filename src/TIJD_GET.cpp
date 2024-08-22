@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <WiFiUdp.h>
 
-void getTijd() {
+void getTijd(){
 
   timeRetrieved = false; // stays false until time is retrieved  
   timeClient.begin();
@@ -22,7 +22,7 @@ void getTijd() {
 //    unsigned long epoch = secsSince1900 - seventyYears + atof(timezone) * 60; // * 60 weggehaald omdat timezone in minuten is
 //    unsigned long epochTime = timeClient.getEpochTime;
     // we have to do this conditional, if time retrieving failed
-    if (epochTime < 1000) {
+    if (epochTime < 1000){
     ntpUDP.stop();
     return;
   } else {
@@ -30,9 +30,9 @@ void getTijd() {
     epochTime += atoi(timezone) * 60;
     setTime(epochTime); // dit moeten we doen omdat anders zomertijd() niet werkt
     //Serial.print("epoch gecorrigeerd voor timezone = "); Serial.println(epochTime);
-    if ( zomerTijd == true ) {
+    if ( zomerTijd == true ){
     //Serial.print("zomerTijd[0] = een o dus on "); Serial.println(String(zomerTijd));  
-      if (zomertijd() == true) {  
+      if (zomertijd() == true){  
         epochTime += 3600; // een uur erbij
         setTime(epochTime);
         //DebugPrint("epoch corrected with dts = "); //DebugPrintln(epochTime);

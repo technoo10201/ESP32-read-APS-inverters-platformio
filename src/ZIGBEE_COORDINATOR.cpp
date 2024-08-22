@@ -4,7 +4,7 @@
  *  This is not caused by only the last NO command. It seems that if we feed sendZB() with a 
  *  char that contains empty space, it goes wrong. 
  *  To send the relative commands i tried something like:
- *  for ( int y=0; y < 8; Y++ ) {
+ *  for ( int y=0; y < 8; Y++ ){
  *    snprintf(command, "A123B456C%sA1A2B3B4C5C6", invID); // or similar
  *    sendZB(command);
  *    etc; 
@@ -15,7 +15,7 @@
  *  I haven't investigate this further, for now only the method used here works
  */
 
-bool coordinator(bool normal) { // if true we send the extra command for normal operations
+bool coordinator(bool normal){ // if true we send the extra command for normal operations
     if(diagNose != 0) consoleOut(F("starting coordinator"));
     //} else 
     //if(diagNose == 2) ws.textAll(F("starting coordinator")); 
@@ -41,7 +41,7 @@ bool coordinator(bool normal) { // if true we send the extra command for normal 
     }
 }
 
-void coordinator_init() {
+void coordinator_init(){
 
     /*
     * Init the coordinator takes the following procedure
@@ -81,7 +81,7 @@ void coordinator_init() {
     */
 
     Serial.println("coordinator init 1");
-    if( diagNose != 0 ){
+    if(diagNose != 0){
         consoleOut("init zb coordinator");
     }
     zigbeeUp = 11; // initial it is initializing 11, 0=down 1=up
@@ -133,7 +133,7 @@ void coordinator_init() {
 
       //Serial.println("comMand ex len ex checkSum = " + String(initBaseCommand[y]));
       delayMicroseconds(250);
-      if( diagNose != 0 ){
+      if(diagNose != 0){
         consoleOut("zb send cmd " + String(y));
       }
   
@@ -158,7 +158,7 @@ void coordinator_init() {
 // **************************************************************************************
 //                the extra command for normal operations
 // **************************************************************************************
-void sendNO() {
+void sendNO(){
     char noCmd[49] ={0} ;   //  this buffer must have the right length
     char ecu_id_reverse[13]; //= {ECU_REVERSE()};
     ECU_REVERSE().toCharArray(ecu_id_reverse, 13);

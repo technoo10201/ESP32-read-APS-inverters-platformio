@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <AsyncWebSocket.h>
 
-void pairOnActionflag() {
+void pairOnActionflag(){
     // Start with setup the coordinator
     // Can we pair when the radio is up for normal operation
 
@@ -9,25 +9,25 @@ void pairOnActionflag() {
     sprintf(term, "inverter %d", Inv_Prop[iKeuze].invSerial);
     Update_Log("pairing", term);
 
-    if (!coordinator(false)) {
+    if (!coordinator(false)){
         // term="pairing failed, zb down";
         Update_Log("pairing", "failed, zb down");
-        if (diagNose != 0) {
+        if (diagNose != 0){
             consoleOut("pairing failed, zb down");
         }
         return;
     }
 
-    if (diagNose != 0) {
+    if (diagNose != 0){
         consoleOut("trying pair inv " + String(iKeuze));
     }
     // Now that we know that the radio is up, we don't need to test this in the pairing routine
 
-    if (pairing(iKeuze)) {
+    if (pairing(iKeuze)){
         // DebugPrintln("pairing success, saving configfile");
         String term = "success, inverter got id " + String(Inv_Prop[iKeuze].invID);
         // Update_log("pairing".c_str(), term.c_str());
-        if (diagNose != 0) {
+        if (diagNose != 0){
             consoleOut(term);
         }
         // } else if(diagNose==2){ws.textAll(term);}
@@ -36,7 +36,7 @@ void pairOnActionflag() {
         strncpy(Inv_Prop[iKeuze].invID, "0000", 6);
         String term = "failed, inverter got id " + String(Inv_Prop[iKeuze].invID);
         // Update_log("pair".c_str(), term.c_str());
-        if (diagNose != 0) {
+        if (diagNose != 0){
             consoleOut(term);
         }
         // } else if(diagNose==2){ws.textAll(term);}
@@ -50,7 +50,7 @@ void pairOnActionflag() {
     checkCoordinator(); // Updates the log
 }
 
-void handlePair(AsyncWebServerRequest *request) {
+void handlePair(AsyncWebServerRequest *request){
     strncpy(Inv_Prop[iKeuze].invID, "1111", 4); // This value makes the pairing page visible
 
     actionFlag = 60; // We do this because no delay is allowed within an async request
@@ -59,7 +59,7 @@ void handlePair(AsyncWebServerRequest *request) {
     request->send(200, "text/html", toSend); // Send the HTML code to the client
 }
 
-bool pairing(int which) {
+bool pairing(int which){
   // The pairing process consists of 4 commands sent to the coordinator
   char pairCmd[254] = {0};
   char s_d[250] = {0};
@@ -72,8 +72,8 @@ bool pairing(int which) {
   String term = "";
   bool success = false;
 
-  for (int y = 0; y < 4; y++) {
-    switch (y) {
+  for (int y = 0; y < 4; y++){
+    switch (y){
       case 0:
           // Build command 0 this is "24020FFFFFFFFFFFFFFFFF14FFFF14" + "0D0200000F1100" + String(invSerial) + "FFFF10FFFF" + ecu_id_reverse
           snprintf(pairCmd, sizeof(pairCmd),
@@ -103,7 +103,7 @@ bool pairing(int which) {
     delayMicroseconds(250);
     // Send
     term = "pair command " + String(y) + " = " + String(pairCmd);
-    if (diagNose != 0) {
+    if (diagNose != 0){
       consoleOut(term);
     }
     // else if(diagNose == 2) ws.textAll(term);
@@ -111,9 +111,9 @@ bool pairing(int which) {
     sendZB(pairCmd);
     delay(1500); // Give the inverter the chance to answer
 
-    if (y == 1 || y == 2) {
+    if (y == 1 || y == 2){
         // If y 1 or 2 we catch and decode the answer
-        if (decodePairMessage(which)) {
+        if (decodePairMessage(which)){
             success = true; // If at least one of these 2 was true we had success
         }
     } else {
@@ -123,14 +123,14 @@ bool pairing(int which) {
   }
 
   // Now all 4 commands have been sent
-  if (success) {
+  if (success){
       return true;
   } else {
       return false;
   } // When paired 0x103A
 }
 
-bool decodePairMessage(int which) {
+bool decodePairMessage(int which){
     char messageToDecode[CC2530_MAX_SERIAL_BUFFER_SIZE] = {0};
     char _CC2530_answer_string[] = "44810000";
     char _noAnswerFromInverter[32] = "FE0164010064FE034480CD14011F";
@@ -141,12 +141,12 @@ bool decodePairMessage(int which) {
 
     strcpy(messageToDecode, readZB(s_d));
     // Serial.println("messageToDecode = " + String(messageToDecode));
-    if (diagNose != 0) {
+    if (diagNose != 0){
         consoleOut("decoding : " + String(messageToDecode));
     }
 
-    if (readCounter == 0 || strlen(messageToDecode) < 6) { // Invalid message
-        if (diagNose != 0) {
+    if (readCounter == 0 || strlen(messageToDecode) < 6){ // Invalid message
+        if (diagNose != 0){
             consoleOut("no usable code, returning..");
         }
         messageToDecode[0] = '\0';
@@ -154,9 +154,9 @@ bool decodePairMessage(int which) {
     }
 
     // Can we conclude that a valid pair answer cannot be less than 60 bytes
-    if (strlen(messageToDecode) > 222 || readCounter < 60 || strlen(messageToDecode) < 6) {
+    if (strlen(messageToDecode) > 222 || readCounter < 60 || strlen(messageToDecode) < 6){
         // term = "no pairing code, returning...";
-        if (diagNose != 0) {
+        if (diagNose != 0){
             consoleOut(F("no valid pairing code, returning..."));
         }
         messageToDecode[0] = '\0';
@@ -164,8 +164,8 @@ bool decodePairMessage(int which) {
     }
 
     // The message is shorter but not too short so continuing
-    if (!strstr(messageToDecode, Inv_Prop[which].invSerial)) {
-        if (diagNose != 0) {
+    if (!strstr(messageToDecode, Inv_Prop[which].invSerial)){
+        if (diagNose != 0){
             consoleOut("not found serialnr, returning");
         }
         // if(diagNose==1) Serial.println(term); else if(diagNose==2) ws.textAll(term);
@@ -173,16 +173,16 @@ bool decodePairMessage(int which) {
         return false;
     }
 
-    if (strstr(messageToDecode, Inv_Prop[which].invSerial)) {
+    if (strstr(messageToDecode, Inv_Prop[which].invSerial)){
         result = split(messageToDecode, Inv_Prop[which].invSerial);
     }
 
-    if (diagNose != 0) {
+    if (diagNose != 0){
         consoleOut("result after 1st splitting = " + String(result));
     }
 
     // Now we keep splitting as long as result contains the serial nr
-    while (strstr(result, Inv_Prop[which].invSerial)) {
+    while (strstr(result, Inv_Prop[which].invSerial)){
         result = split(result, Inv_Prop[which].invSerial);
     }
 
@@ -195,12 +195,12 @@ bool decodePairMessage(int which) {
     strncpy(Inv_Prop[which].invID, result, 4); // Take the 1st 4 bytes
 
     term = "found invID = " + String(Inv_Prop[which].invID);
-    if (diagNose != 0) {
+    if (diagNose != 0){
         consoleOut(term);
     }
     
     // Why is this? Can it get this value?
-    if (String(Inv_Prop[which].invID) == "0000") {
+    if (String(Inv_Prop[which].invID) == "0000"){
         return false;
     }
     

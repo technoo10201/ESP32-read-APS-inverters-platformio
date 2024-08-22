@@ -5,12 +5,12 @@
 //                            read zigbee
 // *****************************************************************************
 
-char * readZB( char inMess[] ) {
+char * readZB( char inMess[] ){
     readCounter = 0;
     String term="";
     //wait a while untill something available
     //if not within the reactiontime we return NULL
-    if( !waitSerial2Available() ) {
+    if( !waitSerial2Available() ){
         inMess[0]='\0';
         term = " readZB nothing to read";
         if(diagNose != 0){
@@ -44,7 +44,7 @@ char * readZB( char inMess[] ) {
         // now we should have catched inMessage
         if(readCounter == 0) inMess[0]='\0';
         // with swaps we get F8 sometimes, this removes it
-        if(inMess[0] == 'F' && inMess[1] == '8') {
+        if(inMess[0] == 'F' && inMess[1] == '8'){
            Serial.println("found F8");
            strcpy(inMess, &inMess[2]);
         }   
@@ -141,7 +141,7 @@ int StrToHex(char str[])
 }
 
 // reverse the ecu id **********************************************************
-String ECU_REVERSE() {
+String ECU_REVERSE(){
    String ecu_id = String(ECU_ID);
    String reverse = ecu_id.substring(10,12) + ecu_id.substring(8,10) + ecu_id.substring(6,8) + ecu_id.substring(4,6) + ecu_id.substring(2,4) + ecu_id.substring(0,2);
    return reverse;
@@ -151,10 +151,10 @@ String ECU_REVERSE() {
 // ******************************************************************************
 //                   reboot an inverter
 // *******************************************************************************
-void inverterReboot(int which) {
+void inverterReboot(int which){
     char ecu_id_reverse[13];  
     ECU_REVERSE().toCharArray(ecu_id_reverse, 13);
-    if(zigbeeUp != 1) {
+    if(zigbeeUp != 1){
        ws.textAll("skip inverter reboot, zigbee down");
        return; 
     }
@@ -194,7 +194,7 @@ void inverterReboot(int which) {
       //char s_d[150]={0};
       readZB(s_d);
 
-//      if(readCounter == 0) {
+//      if(readCounter == 0){
 //      } 
 //      ws.textAll("received : " + String(inMess) );
 }
@@ -202,7 +202,7 @@ void inverterReboot(int which) {
 // ******************************************************************************
 //                    reset all values and send mqtt
 // ******************************************************************************
-void resetValues(bool energy, bool mustSend) {
+void resetValues(bool energy, bool mustSend){
       for(int z=0; z<inverterCount; z++) 
       { 
          for(int y=0; y<5; y++ ) Inv_Data[z].power[y] = 0.0; // make powervalues null

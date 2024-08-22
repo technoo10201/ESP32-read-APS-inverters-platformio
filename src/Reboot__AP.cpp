@@ -1,9 +1,9 @@
 
 #include <ESPAsyncWebServer.h>
 
-// void zendPageReboot() {
+// void zendPageReboot(){
 //  // als niet ingelogd als admin dan terug
-//    if(!server.authenticate("admin", pswd)) { return server.requestAuthentication(); }
+//    if(!server.authenticate("admin", pswd)){ return server.requestAuthentication(); }
 //      
 //  toSend = FPSTR(HTML_HEAD);
 //  toSend += FPSTR(CONFIRM);
@@ -14,9 +14,9 @@
 //  ESP.restart();
 //}
 
-//void startAP() {
+//void startAP(){
 //  // als niet ingelogd als admin dan terug
-//    if(!server.authenticate("admin", pswd)) { return server.requestAuthentication(); }
+//    if(!server.authenticate("admin", pswd)){ return server.requestAuthentication(); }
 //        DebugPrintln("Erasing the wifisettings");
 //    String teZenden = F("<!DOCTYPE html><html><head><script type='text/javascript'>setTimeout(function(){ window.location.href='/SW=BACK'; }, 3000 ); </script>");
 //    teZenden += F("</head><body><h2>OK the accesspoint is started.</h2>Wait until the led lights up.<br><br>then go to wifi-settings on your device and connect to ESP-");
@@ -33,7 +33,7 @@
 //    ESP.restart();
 //}
 
-void loginAdmin(AsyncWebServerRequest *request) {
+void loginAdmin(AsyncWebServerRequest *request){
   String authFailResponse = "<h2>login failed <a href='/'>click here</a></h2>";
   const char* www_realm = "login as administrator."; 
     if (!request->authenticate("admin", pswd)) return request->requestAuthentication();

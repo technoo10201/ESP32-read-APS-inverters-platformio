@@ -16,7 +16,7 @@ tr {height:35px;}
 </head><body><center>
 )=====";
 
-void sendPageDetails(int i) {
+void sendPageDetails(int i){
 DebugPrintln("we are on DETAILSPAGE() ");
 //polled[i] = true; // for testing
 toSend = FPSTR(DETAILSPAGE);
@@ -26,7 +26,7 @@ toSend = FPSTR(DETAILSPAGE);
 toSend += "<h3>ESP-ECU DATA INVERTER " + String(i) + "</h3>";
 
 
-if(String(Inv_Prop[i].invID) != "0x0000" ) {
+if(String(Inv_Prop[i].invID) != "0x0000" ){
     String i_type="YC600";
     if(Inv_Prop[i].invType == 2) i_type="DS3";
     if(Inv_Prop[i].invType == 1) i_type="QS1";
@@ -37,7 +37,7 @@ if(String(Inv_Prop[i].invID) != "0x0000" ) {
     toSend +=" <tr><td> serialnr <td >" + String(Inv_Prop[i].invSerial) + "</tr>";
     toSend += "<tr><td>ID<td>" + String(Inv_Prop[i].invID) + "</tr>";
     
-    if ( polled[i] ) {  // when polled we add the data  
+    if ( polled[i] ){  // when polled we add the data  
         toSend += "<tr><td>  signal quality <td>" + String(Inv_Data[i].sigQ) + "%</tr>";
         toSend += "<tr><td>  ac voltage<td>" + String(Inv_Data[i].acv) + "</tr>";
         toSend += "<tr><td>  temperature<td>" + String(Inv_Data[i].heath) + "</tr>";    
@@ -50,13 +50,13 @@ if(String(Inv_Prop[i].invID) != "0x0000" ) {
 
         // the row for the voltage
         toSend += "<tr><td>dc voltage<td>" + String(Inv_Data[i].dcv[0]) + "<td>" + String(Inv_Data[i].dcv[1]);
-        if(Inv_Prop[i].invType == 1) {  
+        if(Inv_Prop[i].invType == 1){  
           toSend += "<td>" + String(Inv_Data[i].dcv[2]) + "<td>" + String(Inv_Data[i].dcv[3]) + "</tr>";
           } else { toSend += "</tr>";}
 
         // the row for the current
         toSend += "<tr><td>dc current<td>" + String(Inv_Data[i].dcc[0]) + "<td>" + String(Inv_Data[i].dcc[1]);
-        if(Inv_Prop[i].invType == 1) {  
+        if(Inv_Prop[i].invType == 1){  
           toSend += "<td>" + String(Inv_Data[i].dcc[2]) + "<td>" + String(Inv_Data[i].dcc[3]) + "</tr>";
           } else { toSend += "</tr>";}
         // end table

@@ -112,7 +112,7 @@ void handleMQTTconfig(AsyncWebServerRequest *request){
 
   Mqtt_Format = request->arg("fm").toInt(); //values are 0 1 2
 
-  if( diagNose != 0 ){
+  if(diagNose != 0){
     consoleOut("saved mqttconfig");
   }
 

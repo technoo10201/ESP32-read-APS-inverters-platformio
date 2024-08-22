@@ -70,7 +70,7 @@ const char GEOCONFIG[] PROGMEM = R"=====(
 </html>
 )=====";
 
-void zendPageGEOconfig() {
+void zendPageGEOconfig(){
   //DebugPrintln("we are on zendPageGeoconfig");
   //loginAdmin(AsyncWebServerRequest *request);
 
@@ -85,7 +85,7 @@ void zendPageGEOconfig() {
   toSend.replace("{tz}",  String(timezone) );
 
   //Serial.println("zendPageGEOconfig zomerTijd = " + String(zomerTijd) );
-  if (zomerTijd) { 
+  if (zomerTijd){ 
     //  Serial.println("zomerTijd = true");
     toSend.replace("#check", "checked");
   } else {
@@ -93,7 +93,7 @@ void zendPageGEOconfig() {
   }
 }
 
-void handleGEOconfig(AsyncWebServerRequest *request) {
+void handleGEOconfig(AsyncWebServerRequest *request){
   //char static_ip2[16] = "";
 
   //de serverargumenten verzamelen
@@ -109,10 +109,10 @@ void handleGEOconfig(AsyncWebServerRequest *request) {
 
   //BEWARE CHECKBOX
   String dag = "";
-  if(request->hasParam("ts")) {
+  if(request->hasParam("ts")){
     dag = request->getParam("ts")->value();  
   }
-  if (dag == "on") { 
+  if (dag == "on"){ 
     zomerTijd = true; 
   } else { 
     zomerTijd = false;
