@@ -23,7 +23,7 @@ void start_wifi(){
     Serial.print("*");
 
     WiFi.begin();
-    event+=1;
+    event += 1;
 
     if (event==10){
       break;
@@ -31,7 +31,7 @@ void start_wifi(){
   }
   
   // als het verbinden is mislukt gaan we naar het configportal
-  if (event>9){
+  if (event > 9){
     event=0;
     Serial.println("\nWARNING connection failed");
     start_portal();
@@ -79,7 +79,7 @@ void checkFixed(){
 void loginBoth(AsyncWebServerRequest *request, String who){
   String authFailResponse = "<h2>login failed <a href='/'>click here</a></h2>";
 
-  if (who == "admin" ){
+  if (who == "admin"){
     const char* www_realm = "login as administrator.";
 
     if (!request->authenticate("admin", pswd)){

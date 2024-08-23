@@ -7,6 +7,8 @@
 #include <PORTAL_HTML.H>
 #include <SPIFFS_RW.h>
 #include <GLOBALS.h>
+#include <DNSServer.h>
+#include <utils.h>
 
 
 void start_portal();

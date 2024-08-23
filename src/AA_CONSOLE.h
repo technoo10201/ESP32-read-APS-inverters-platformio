@@ -2,6 +2,7 @@
 #define AA_CONSOLE_H
 
 #include <AsyncWebSocket.h>
+#include <SPIFFS_RW.h>
 
 //<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 

@@ -26,7 +26,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
               int kz = String(txBuffer[8]).toInt();
               if ( kz > inverterCount-1 ){
               ws.textAll("error, no such inverter");
-              if ( kz == 9 ) actionFlag=48; // poll all
+              if ( kz == 9 ) actionFlag = 48; // poll all
               return;  
               }
               ws.textAll("poll inverter " + String(kz));
@@ -39,8 +39,8 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
             //ws.textAll("received " + String( (char*)data) + "<br>"); 
               int kz = String(txBuffer[8]).toInt();
               if ( kz > inverterCount-1 ){
-              ws.textAll("error, no such inverter");
-              return;  
+                ws.textAll("error, no such inverter");
+                return;  
               }
               char invid[5];
               for(int i=10;  i<15; i++){ invid[i-10] = txBuffer[i]; }
@@ -52,12 +52,12 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
               return;
           } else if (strncasecmp(txBuffer+3,"HEALTH",6) == 0){  
               ws.textAll("check zb system");
-              actionFlag=44; // perform the healthcheck
+              actionFlag = 44; // perform the healthcheck
               diagNose=true;
               return;             
           } else if (strncasecmp(txBuffer+3,"TESTMQTT",8) == 0){   // ************  rtest mosquitto *******************************       
               ws.textAll("test mosquitto");
-              actionFlag=49; // perform the healthcheck
+              actionFlag = 49; // perform the healthcheck
               diagNose=true;
               return;             
           } else if (strncasecmp(txBuffer+3,"CLEAR",5) == 0){  
@@ -66,12 +66,11 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
           } else if (strncasecmp(txBuffer+3,"REBOOT_INVERTER=",16) == 0){
               int kz = String(txBuffer[19]).toInt();
               ws.textAll("reboot inverter " + String(kz));
-              if ( kz > inverterCount-1 ) 
-              {
-                 ws.textAll("error, non-excisting inverter");
-                 return;  
+              if (kz > inverterCount-1) {
+                ws.textAll("error, non-excisting inverter");
+                return;  
               }
-                 actionFlag = 34;
+              actionFlag = 34;
               return;
           } else if (strncasecmp(txBuffer+3,"FILES",5) == 0){  
               //we do this in the loop
@@ -106,38 +105,39 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
           } else if (strncasecmp(txBuffer+3,"DELETE=",7) == 0){  
               //input can be 10;DELETE=filename
               String bestand="";
-              for(int i=10;  i<len+1; i++){ bestand += String(txBuffer[i]); }
-               ws.textAll("bestand = " + bestand); 
-              if (SPIFFS.exists(bestand)) 
-              {
-                  ws.textAll("going to delete file " + bestand); 
-                  if(!bestand.indexOf("Inv_Prop") == -1 ) 
-                  {
-                      SPIFFS.remove(bestand);
-                      ws.textAll("file " + bestand + " removed!"); 
-                  } else {
-                      ws.textAll("inverterfile not removed, use 10;erase!"); 
-                  }
-              
-              } else 
-              { 
-                 ws.textAll("no such file");
+
+              for(int i=10;  i<len+1; i++){ 
+                bestand += String(txBuffer[i]);
               }
+
+              ws.textAll("bestand = " + bestand); 
+              
+              if (SPIFFS.exists(bestand)){
+                ws.textAll("going to delete file " + bestand); 
+                if(!bestand.indexOf("Inv_Prop") == -1 ){
+                  SPIFFS.remove(bestand);
+                  ws.textAll("file " + bestand + " removed!"); 
+                } else {
+                  ws.textAll("inverterfile not removed, use 10;erase!"); 
+                }
+              } else { 
+                ws.textAll("no such file");
+              }
+
               return;                      
-          } else if (strncasecmp(txBuffer+3, "DIAG",4) == 0) // normal operation
-      {
-         if(diagNose){
-          diagNose = false;
-         } else {
-          diagNose= true;
-         } 
-          ws.textAll("set diagnose to " + String(diagNose) );  
+          } else if (strncasecmp(txBuffer+3, "DIAG",4) == 0){ // normal operation
+            if(diagNose){
+              diagNose = false;
+            } else {
+              diagNose= true;
+            } 
+            ws.textAll("set diagnose to " + String(diagNose) );  
 // ****************************************************************
-      } else if (strncasecmp(txBuffer+3, "INIT_N",6) == 0){ // normal operation
-         ws.textAll("command = " + String(txBuffer) );  
-         actionFlag = 21;
-         diagNose=true;
-         return;
+          } else if (strncasecmp(txBuffer+3, "INIT_N",6) == 0){ // normal operation
+            ws.textAll("command = " + String(txBuffer) );  
+            actionFlag = 21;
+            diagNose=true;
+            return;
 // ***************************************************************
 //      } else 
 //
@@ -146,17 +146,17 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
 //         ws.textAll("command = " + String(txBuffer) );  
 //         actionFlag = 22;
 
-#ifdef TEST
-      } else 
+      #ifdef TEST
+            } else 
 
-      if (strncasecmp(txBuffer+3, "TESTINV",7) == 0)  
-      {
-         ws.textAll("command = " + String(txBuffer) );  
- //          which = String(txBuffer[10]).toInt();
-  //         ws.textAll("chosen = " + String(which) );
- 
-         actionFlag = 122;
-#endif      
+            if (strncasecmp(txBuffer+3, "TESTINV",7) == 0)  
+            {
+              ws.textAll("command = " + String(txBuffer) );  
+      //          which = String(txBuffer[10]).toInt();
+        //         ws.textAll("chosen = " + String(which) );
+      
+              actionFlag = 122;
+      #endif      
       
  
       } else {

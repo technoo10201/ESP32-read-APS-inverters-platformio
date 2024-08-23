@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <ESPAsyncWebServer.h>
+#include <SPIFFS_RW.h>
 
 const char GEOCONFIG[] PROGMEM = R"=====(
 <body>

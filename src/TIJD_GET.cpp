@@ -37,11 +37,12 @@ void getTijd(){
         //DebugPrint("epoch corrected with dts = "); //DebugPrintln(epochTime);
       }
     }
+    
     timeRetrieved=true;  
     Update_Log("system", "time retrieved");
-    }
-    //DebugPrint(" Unix time epoch = ");
-    //DebugPrintln(epochTime);
+  }
+  //DebugPrint(" Unix time epoch = ");
+  //DebugPrintln(epochTime);
   
 ntpUDP.stop();
 //

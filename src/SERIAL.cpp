@@ -197,7 +197,7 @@ void handle_Serial (){
 // ************************ test mosquitto *****************************
             if (strncasecmp(InputBuffer_Serial+3,"TESTMQTT",8) == 0){  
               ws.textAll("test mosquitto");
-              actionFlag=49; // perform the healthcheck
+              actionFlag = 49; // perform the healthcheck
               diagNose=true;
               return;             
 

@@ -29,13 +29,15 @@ void start_server(){
   server.on("/handleFwupdate", HTTP_POST, [](AsyncWebServerRequest *request){
     if(checkRemote( request->client()->remoteIP().toString()) ) request->redirect( "/DENIED" );
     Serial.println("FWUPDATE requested");
+
     if( !Update.hasError() ){
-    toSend="<br><br><center><h2>UPDATE SUCCESS !!</h2><br><br>";
-    toSend +="click here to reboot<br><br><a href='/REBOOT'><input style='font-size:3vw;' type='submit' value='REBOOT'></a>";
+      toSend="<br><br><center><h2>UPDATE SUCCESS !!</h2><br><br>";
+      toSend +="click here to reboot<br><br><a href='/REBOOT'><input style='font-size:3vw;' type='submit' value='REBOOT'></a>";
     } else {
-    toSend="<br><br><center><kop>update failed<br><br>";
-    toSend +="click here to go back <a href='/FWUPDATE'>BACK</a></center>";
+      toSend="<br><br><center><kop>update failed<br><br>";
+      toSend +="click here to go back <a href='/FWUPDATE'>BACK</a></center>";
     }
+
     AsyncWebServerResponse *response = request->beginResponse(200, "text/html", toSend);
     response->addHeader("Connection", "close");
     request->send(response);
@@ -43,17 +45,18 @@ void start_server(){
   },[](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final){
     //Serial.println("filename = " + filename);
     if(filename != ""){
-    if(!index){
-      //#ifdef DEBUG
-        Serial.printf("start firmware update: %s\n", filename.c_str());
-      //#endif
-      //Update.runAsync(true);
-      if(!Update.begin((ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000)){
+      if(!index){
         //#ifdef DEBUG
-          Update.printError(Serial);
+        Serial.printf("start firmware update: %s\n", filename.c_str());
         //#endif
+        //Update.runAsync(true);
+
+        if(!Update.begin((ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000)){
+          //#ifdef DEBUG
+            Update.printError(Serial);
+          //#endif
+        }
       }
-    }
     } else {
       if(diagNose != 0){
         consoleOut("filename empty, aborting");
@@ -90,8 +93,8 @@ void start_server(){
       request->send_P(200, "text/html", ECU_HOMEPAGE);
   });
 
-  server.on("/STYLESHEET", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/css", STYLESHEET);
+  server.on("/STYLESHEET_HOME", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/css", STYLESHEET_HOME);
   });
 
   server.on("/JAVASCRIPT", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -187,7 +190,7 @@ void start_server(){
   server.on("/geoconfig", HTTP_GET, [](AsyncWebServerRequest *request){
     //DebugPrintln(F("geoconfig requested"));
     handleGEOconfig(request);
-    request->redirect( requestUrl );
+    request->redirect(requestUrl);
   });
 
   server.on("/REBOOT", HTTP_GET, [](AsyncWebServerRequest *request){

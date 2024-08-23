@@ -116,7 +116,7 @@ void start_portal(){
     WiFi.begin(ssid, pass);
     Serial.println("send confirm page  ");
 
-    if (connectWifi() == WL_CONNECTED){
+    if(connectWifi() == WL_CONNECTED){
       Serial.println("youpy, connected");
       esp_task_wdt_reset();
       digitalWrite(led_onb, LED_UIT);
@@ -131,7 +131,7 @@ void start_portal(){
 
     toSend = FPSTR(PORTAL_CONFIRM);
 
-    if (event == 100){
+    if(event == 100){
       toSend.replace("{text}", "connection has failed");
     } else {
       toSend.replace("{text}", "connection success");
@@ -190,12 +190,13 @@ void start_portal(){
       heartbeat = millis(); // elke 10 sec een heartbeat
       Serial.print("a ");
     }
+
     // SERIAL: *************** see if there is data available **********************
     // if(Serial.available()){
     // handle_Serial();
     // }
 
-    if (tryConnectFlag){ // there are credentials provided
+    if(tryConnectFlag){ // there are credentials provided
       wifiConnect(); // if connected we break out of this loop
     }
     //DNS
@@ -304,7 +305,7 @@ void handleForm() {
 void wifiConnect() {
   // we are here because bool tryConnectFlag was true in the loop
   digitalWrite(led_onb, LED_UIT);
-  tryConnectFlag=false;
+  tryConnectFlag = false;
   laatsteMeting = millis();
 
   Serial.println("we are in wifiConnect");
@@ -318,11 +319,11 @@ void wifiConnect() {
   if (connectWifi() == 1) {
     Serial.println("youpy, connected");
     ledblink(3, 500);
-    event=101;
+    event = 101;
   } else {
     Serial.println("could not connect, try again");
     digitalWrite(led_onb, LED_AAN); // 
-    event=100;
+    event = 100;
   } 
   // must jump out of the loop
  }
@@ -360,6 +361,7 @@ int connectWifi() {
 // *********************************************************************
 void handlePortalClose() {
   laatsteMeting = millis();
+
   String toSend = F("<!DOCTYPE html><html><head>");
   toSend += F("<script type='text/javascript'>setTimeout(function(){ window.location.href='/'; }, 1000 ); </script>");
   toSend += F("</head><body><h2>The esp is going to restart.!</h2>Do not forget to note the ip address!!<br>");
@@ -463,7 +465,7 @@ String makeList(int aantal) { // aantal is het aantal gevonden netwerken
     }
   }   
   
-  String lijst="";
+  String lijst = "";
   for (int i = 0; i < aantal; i++) {
     String item = FPSTR(PORTAL_LIST);
     String rssiQ;

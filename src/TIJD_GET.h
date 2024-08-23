@@ -3,6 +3,9 @@
 
 #include <Arduino.h>
 #include <WiFiUdp.h>
+#include <AAA_LOG.h>
+#include <sunMoon.h>
+#include <TIJD_CALC.h>
 
 void getTijd();
 

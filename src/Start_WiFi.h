@@ -6,6 +6,7 @@
 #include <AsyncWebSocket.h>
 #include <utils.h>
 #include <ASYSERVER.h>
+#include <PORTAL_WIFI.h>
 
 void start_wifi();
 void checkFixed();

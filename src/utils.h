@@ -13,6 +13,7 @@
 #include <ZIGBEE_HELPERS.h>
 #include <ZIGBEE_POLLING.h>
 #include <test.h>
+#include <MQTT.h>
 
 void ledblink(int i, int wacht);
 void empty_serial();

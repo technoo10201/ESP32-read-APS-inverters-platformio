@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <AsyncWebSocket.h>
+#include <SPIFFS_RW.h>
 
 const char MQTTCONFIG[] PROGMEM = R"=====(
 <body>

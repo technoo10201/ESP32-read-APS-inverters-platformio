@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <mqtt_client.h>
 #include <mqtt_supported_features.h>
+#include <TIJD_GET.h>
+#include <ZIGBEE_HELPERS.h>
 
 // *************************************************************************
 //                   system healtcheck 
