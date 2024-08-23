@@ -17,6 +17,7 @@
 
 #include <ZIGBEE_COORDINATOR.h>
 
+
 bool coordinator(bool normal){ // if true we send the extra command for normal operations
     if(diagNose != 0) consoleOut(F("starting coordinator"));
     //} else 

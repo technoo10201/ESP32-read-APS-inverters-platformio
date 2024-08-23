@@ -21,9 +21,9 @@
 #include <DNSServer.h> 
 #include <Update.h>
 #include <Hash.h>
-#include "SPIFFS.h"
-#include "FS.h"
-#include "Async_TCP.h" // We include the customized one
+#include <SPIFFS.h>
+#include <FS.h>
+#include <Async_TCP.h> // We include the customized one
 #include <PubSubClient.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
@@ -35,10 +35,10 @@
 //////////////////////////////////////////
 // Espressif Libs for ESP32
 //////////////////////////////////////////
-#include "soc/soc.h"          // ha for brownout
-#include "soc/rtc_cntl_reg.h" // ha for brownout
+#include <soc/soc.h>          // ha for brownout
+#include <soc/rtc_cntl_reg.h> // ha for brownout
 #include <esp_task_wdt.h>     // ha
-#include "soc/rtc_wdt.h"
+#include <soc/rtc_wdt.h>
            
 //////////////////////////////////////////
 // Project Libs
@@ -47,50 +47,47 @@
 #include <GLOBALS.h>
 
 
-//#include "AAA_CONFIG_INVERTERS.H"
-#include "AAA_MENUPAGE.H"
-#include "AAA_DECODE.cpp"
-#include "AAA_HOMEPAGE.cpp"
-#include "AAA_INVERTERS.cpp"
-#include "AAA_LOG.cpp"
-#include "AA_CONSOLE.cpp"
+//#include <AAA_CONFIG_INVERTERS.H>
+#include <AAA_MENUPAGE.H>
+#include <AAA_DECODE.h>
+#include <AAA_HOMEPAGE.h>
+#include <AAA_INVERTERS.h>
+#include <AAA_LOG.h>
+#include <AA_CONSOLE.h>
 
-#include "PORTAL_HTML.H"
-#include "HTML.H"
-#include "DETAILSPAGE.H"
-#include "OTA.H"
-#include "ABOUT.cpp"
-#include "ASYSERVER.cpp"
-#include "CONFIG_BASIS.cpp"
-#include "CONFIG_GEO.cpp"
-#include "CONFIG_IP.cpp"
-#include "DETAILSPAGE.cpp"
-#include "EXTERNAL.cpp"
-#include "FORCE.cpp"
-#include "INFOPAGE.cpp"
-#include "ISR.cpp"
-#include "legende.cpp"
-#include "LOGPAGE.cpp"
-#include "MQTT.cpp"
-#include "MQTT_CONFIG.cpp"
-#include "Start_WiFi.cpp"
-#include "PORTAL_WIFI.cpp"
-#include "Reboot__AP.cpp"
-#include "SERIAL.cpp"
-#include "SPIFFS_RW.cpp"
+#include <PORTAL_HTML.H>
+#include <HTML.H>
+#include <DETAILSPAGE.H>
+#include <OTA.H>
+#include <ABOUT.h>
+#include <ASYSERVER.h>
+#include <CONFIG_BASIS.h>
+#include <CONFIG_GEO.h>
+#include <CONFIG_IP.h>
+#include <DETAILSPAGE.h>
+#include <EXTERNAL.h>
+#include <FORCE.h>
+#include <ISR.h>
+#include <MQTT.h>
+#include <MQTT_CONFIG.h>
+#include <Start_WiFi.h>
+#include <PORTAL_WIFI.h>
+#include <Reboot_AP.h>
+#include <SERIAL.h>
+#include <SPIFFS_RW.h>
 
-#include "TIJD_CALC.cpp"
-#include "TIJD_GET.cpp"
-#include "ZIGBEE_COORDINATOR.cpp"
-#include "ZIGBEE_HEALTH.cpp"
-#include "ZIGBEE_HELPERS.cpp"
-#include "ZIGBEE_PAIR.cpp"
-#include "ZIGBEE_POLLING.cpp"
+#include <TIJD_CALC.h>
+#include <TIJD_GET.h>
+#include <ZIGBEE_COORDINATOR.h>
+#include <ZIGBEE_HEALTH.h>
+#include <ZIGBEE_HELPERS.h>
+#include <ZIGBEE_PAIR.h>
+#include <ZIGBEE_POLLING.h>
 
-#include "test.cpp"
+#include <test.h>
 
 #include <utils.h>
 
-// #include "eventSource.H"
+// #include <eventSource.H>
 
 #endif

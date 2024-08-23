@@ -56,7 +56,7 @@ void handleLogPage( AsyncWebServerRequest *request ){
   request->send(200, "text/html", page); 
 }
 
-void Update_Log(char what[], char message[]){
+void Update_Log(int what, char message[14]) {
   char nu[14];
         //DebugPrintln("updating the log");
         Serial.println("what = " + String(what));
@@ -75,7 +75,8 @@ void Update_Log(char what[], char message[]){
         //strcpy( Log_list[logNr].Log_kind, what );
         //strcpy( Log_list[logNr].Log_message, message );
         logNr++;
-          Serial.println("log current event = " + String(logNr));
+        
+        Serial.println("log current event = " + String(logNr));
         if (logNr >= Log_MaxEvents)
         {
             logNr = 0;//start again

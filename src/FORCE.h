@@ -1,4 +1,6 @@
-#include <FORCE.h>
+#ifndef FORCE_H
+#define FORCE_H
+
 
 /* char freq[5] = "00.0";
 char sigQ[5] = "00.0";
@@ -47,3 +49,5 @@ void force_values(){
   
 
 }
+
+#endif

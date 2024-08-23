@@ -21,8 +21,10 @@ void write_eeprom();
 void read_eeprom();
 void test_actionFlag();
 void poll_all(); 
+String getChipId(bool sec);
 void showDir();
 void eventSend(byte what);
+
 
 
 #endif

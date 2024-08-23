@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <ESPAsyncWebServer.h>
+#include <EXTERNAL.h>
 
 //<script type="text/javascript" src="SECURITY"></script>
 

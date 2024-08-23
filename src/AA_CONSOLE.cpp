@@ -20,9 +20,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
               ws.textAll("type REBOOT_INVERTER=x (x=inverternumber 0, 1 etc.)");
               ws.textAll("DISCLAIMER: THIS HAS NOT BEEN TESTED, USE AT YOUR OWN RISK!");
               return;
-          } else         
-
-          if (strncasecmp(txBuffer+3,"POLL=",5) == 0){
+          } else if (strncasecmp(txBuffer+3,"POLL=",5) == 0){
             //input can be 10;POLL=0; 
             //ws.textAll("received " + String( (char*)data) + "<br>"); 
               int kz = String(txBuffer[8]).toInt();
@@ -32,13 +30,11 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
               return;  
               }
               ws.textAll("poll inverter " + String(kz));
-              iKeuze=kz;
-              actionFlag=47;
-              diagNose=true; //
+              iKeuze = kz;
+              actionFlag = 47;
+              diagNose = true;
               return;
-          } else 
-           
-          if (strncasecmp(txBuffer+3,"EDIT=",5) == 0){
+          } else if (strncasecmp(txBuffer+3,"EDIT=",5) == 0){
             //input can be 10;EDIT=0-AABB; 
             //ws.textAll("received " + String( (char*)data) + "<br>"); 
               int kz = String(txBuffer[8]).toInt();
@@ -54,30 +50,20 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
               String bestand = "/Inv_Prop" + String(kz) + ".str"; // /Inv_Prop0.str
               writeStruct(bestand, kz); // save in SPIFFS 
               return;
-          } else 
-           
-           if (strncasecmp(txBuffer+3,"HEALTH",6) == 0){  
+          } else if (strncasecmp(txBuffer+3,"HEALTH",6) == 0){  
               ws.textAll("check zb system");
               actionFlag=44; // perform the healthcheck
               diagNose=true;
               return;             
-          } else          
-
-   
- // ************  rtest mosquitto *******************************          
-           if (strncasecmp(txBuffer+3,"TESTMQTT",8) == 0){  
+          } else if (strncasecmp(txBuffer+3,"TESTMQTT",8) == 0){   // ************  rtest mosquitto *******************************       
               ws.textAll("test mosquitto");
               actionFlag=49; // perform the healthcheck
               diagNose=true;
               return;             
-          } else 
-
-           if (strncasecmp(txBuffer+3,"CLEAR",5) == 0){  
+          } else if (strncasecmp(txBuffer+3,"CLEAR",5) == 0){  
               ws.textAll("clearWindow");
               return;             
-          } else
-
-          if (strncasecmp(txBuffer+3,"REBOOT_INVERTER=",16) == 0){
+          } else if (strncasecmp(txBuffer+3,"REBOOT_INVERTER=",16) == 0){
               int kz = String(txBuffer[19]).toInt();
               ws.textAll("reboot inverter " + String(kz));
               if ( kz > inverterCount-1 ) 
@@ -87,29 +73,19 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
               }
                  actionFlag = 34;
               return;
-          } else
-
-
-
-           if (strncasecmp(txBuffer+3,"FILES",5) == 0){  
+          } else if (strncasecmp(txBuffer+3,"FILES",5) == 0){  
               //we do this in the loop
               ws.textAll("listing files..\n");
               actionFlag = 46;
               return;             
           
-          } else 
- 
- 
- // ********************** zigbee test new*****************************          
-           if (strncasecmp(txBuffer+3,"ZBT=",4) == 0){  
+          } else if (strncasecmp(txBuffer+3,"ZBT=",4) == 0){   // ********************** zigbee test new*****************************       
               ws.textAll("going to send a teststring, len=" + String(len));
               //we do this in the loop
               actionFlag = 45;
               diagNose=true;
                return;             
-          } else 
-
-           if (strncasecmp(txBuffer+3,"ERASE",5) == 0){  
+          } else if (strncasecmp(txBuffer+3,"ERASE",5) == 0){  
               ws.textAll("going to delete all inverter files");
               String bestand;
               for(int i=0; i<50; i++) 
@@ -127,9 +103,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
               ws.textAll("done");
               return;             
           
-          } else            
-           
-           if (strncasecmp(txBuffer+3,"DELETE=",7) == 0){  
+          } else if (strncasecmp(txBuffer+3,"DELETE=",7) == 0){  
               //input can be 10;DELETE=filename
               String bestand="";
               for(int i=10;  i<len+1; i++){ bestand += String(txBuffer[i]); }
@@ -150,9 +124,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
                  ws.textAll("no such file");
               }
               return;                      
-          } else
-
-      if (strncasecmp(txBuffer+3, "DIAG",4) == 0) // normal operation
+          } else if (strncasecmp(txBuffer+3, "DIAG",4) == 0) // normal operation
       {
          if(diagNose){
           diagNose = false;
@@ -161,10 +133,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len){
          } 
           ws.textAll("set diagnose to " + String(diagNose) );  
 // ****************************************************************
-      } else      
-      
-     if (strncasecmp(txBuffer+3, "INIT_N",6) == 0) // normal operation
-      {
+      } else if (strncasecmp(txBuffer+3, "INIT_N",6) == 0){ // normal operation
          ws.textAll("command = " + String(txBuffer) );  
          actionFlag = 21;
          diagNose=true;
